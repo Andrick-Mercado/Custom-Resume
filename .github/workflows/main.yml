@@ -19,13 +19,23 @@ jobs:
       with:
         dotnet-version: 6.x
 
-    # publishes Blazor project to the release-folder
+    # publishes Blazor project to the Prerender/output folder
     - name: Publish .NET Core Project
-      run: dotnet publish CustomResumeBlazor.csproj -c Release -o release --nologo
+      run: dotnet publish Client/CustomResumeBlazor.csproj -c Release -o Prerender/output --nologo
+
+    # Use NodeJS react-snap utitility to prerender static website
+    - name: prerender Blazor client
+      working-directory: Prerender
+      run: npx react-snap
     
-    # changes the base-tag in index.html from '/' to 'BlazorGitHubPagesDemo' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to Custom-Resume
-      run: sed -i 's/<base href="\/" \/>/<base href="\/Custom-Resume\/" \/>/g' release/wwwroot/index.html
+    # change base tag in all html files to include subfolder
+    - name: Change base tag
+      working-directory: Prerender/output/wwwroot
+      run: |
+        find . -name "*.html" | while read htmlFile; do
+            sed -i 's/<base href="\/"/<base href="\/Custom-Resume\/"/g' $htmlFile
+            sed -i 's/<script type="text\/javascript">var Module; window.__wasmmodulecallback__(); delete window.__wasmmodulecallback__;<\/script><script src="_framework\/dotnet.5.0.1.js" defer="" integrity="sha256-SWZOE2EsCqc\/7dPgJrcFqUvVvdeJ9cipeZ2NFMC9v2s=" crossorigin="anonymous"><\/script>//g' $htmlFile
+        done
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
@@ -33,11 +43,11 @@ jobs:
 
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
-      run: touch release/wwwroot/.nojekyll
+      run: touch Prerender/output/wwwroot/.nojekyll
       
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: deployment-branch
-        FOLDER: release/wwwroot
+        FOLDER: Prerender/output/wwwroot
