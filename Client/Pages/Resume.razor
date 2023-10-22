@@ -1,3 +1,20 @@
 ﻿@page "/resume"
 
 <PageTitle>Resume</PageTitle>
+
+<MudPaper Class="pa-4">
+
+    <MudStack Justify="Justify.Center" Spacing="0">
+
+        <MudItem>
+            <MudText Typo="Typo.h3" GutterBottom="true">My Resume</MudText>
+            <MudLink href="https://docs.google.com/document/d/1h5m9wMNMkES1hme1fao6H4Wvy7knP6ze69buBNRKXoA/export?format=pdf" target="_blank">Download</MudLink>
+        </MudItem>
+
+        <MudItem>
+            <embed src="https://docs.google.com/gview?url=https://docs.google.com/document/d/1h5m9wMNMkES1hme1fao6H4Wvy7knP6ze69buBNRKXoA/export?format=pdf&embedded=true" width="100%" height="600" />
+        </MudItem>
+
+    </MudStack>
+
+</MudPaper>

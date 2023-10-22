@@ -1,0 +1,58 @@
+﻿@page "/skills"
+
+<PageTitle>Skills</PageTitle>
+
+
+<MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">Programming</MudText>
+<MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
+    @foreach (var skill in SkillsProgramming)
+    {
+        <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+            <MudCard Square="true" Style="width:400px">
+                <MudIcon Icon="@skill.Icon" Size="Size.Large" />
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@skill.Name</MudText>
+                    <MudText Typo="Typo.body2">@skill.Description</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+</MudItem>
+
+<MudDivider Class="mb-4" />
+
+<MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">Technologies</MudText>
+<MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
+    @foreach (var skill in SkillsTechnologies)
+    {
+        <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+            <MudCard Square="true" Style="width:400px">
+                <MudIcon Icon="@skill.Icon" Size="Size.Large" />
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@skill.Name</MudText>
+                    <MudText Typo="Typo.body2">@skill.Description</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+</MudItem>
+
+<MudDivider Class="mb-4" />
+
+<MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">Languages</MudText>
+<MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
+    
+    @foreach (var skill in SkillsLanguages)
+    {
+        <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+            <MudCard Square="true" Style="width:400px">
+                <MudIcon Icon="@skill.Icon" Size="Size.Large" />
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@skill.Name</MudText>
+                    <MudText Typo="Typo.body2">@skill.Description</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+</MudItem>
+
