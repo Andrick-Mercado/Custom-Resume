@@ -1,0 +1,92 @@
+﻿@page "/defaultviewer/{ClientRouteName}"
+@using CustomResumeBlazor.Domain
+@using CustomResumeBlazor.Domain.Mappers
+
+<PageTitle>@MiExtensions.FirstCharToUpper(ClientRouteName)</PageTitle>
+
+    @if (hasLoaded is false)
+{
+    <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="m-4">
+        <MudAlert>Page is loading...</MudAlert>
+    </MudAlert>
+}
+else if (currentPage.PageFormat is CardType.Experience or CardType.Project or CardType.Education)
+{
+    <MudItem xs="12" md="12" Class="d-flex flex-wrap mt-4">
+        @foreach (var project in currentPage.Cards)
+        {
+            <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+                <MudCard Square="true" Style="width:400px">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">@project.Title</MudText>
+                            <MudText Typo="Typo.body2">@project.Body</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+        }
+    </MudItem>
+}
+else if (currentPage.PageFormat is CardType.GoogleDoc)
+{
+    <MudPaper Class="pa-4">
+
+        <MudStack Justify="Justify.Center" Spacing="0">
+
+            <MudItem>
+                <MudText Typo="Typo.h3" GutterBottom="true">My Resume</MudText>
+                <MudLink href="https://docs.google.com/document/d/1h5m9wMNMkES1hme1fao6H4Wvy7knP6ze69buBNRKXoA/export?format=pdf" target="_blank">Download</MudLink>
+            </MudItem>
+
+            <MudItem Class="d-flex">
+                <embed src="@GetGoogleDocCard()?.EmbedUrl" width="100%" height="600" />
+            </MudItem>
+
+        </MudStack>
+    </MudPaper>
+}
+else if (currentPage.PageFormat is CardType.Skill)
+{
+    @foreach (var skillCards in GetCardsGroupedByCardName())
+    {
+        <MudDivider Class="mb-4" />
+        <MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">@skillCards.Key</MudText>
+        <MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
+            @foreach (var skill in skillCards)
+            {
+                <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+                    <MudCard Square="true" Style="width:400px">
+                        <MudIcon Icon="@IconMapper.GetIcon(skill.Icon)" Size="Size.Large" />
+                        <MudCardContent>
+                            <MudText Typo="Typo.h5">@skill.Title</MudText>
+                                <MudText Typo="Typo.body2">@skill.Body</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+            }
+        </MudItem>
+    }
+}
+
+
+@* <MudDivider Class="mb-4" />
+<MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">Programming</MudText>
+<MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
+    @foreach (var skill in currentPage.Cards)
+    {
+        <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+            <MudCard Square="true" Style="width:400px">
+                <MudIcon Icon="@IconMapper.GetIcon(skill.Icon)" Size="Size.Large" />
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@skill.Title</MudText>
+                        <MudText Typo="Typo.body2">@skill.Body</MudText>
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+    }
+</MudItem>
+
+<MudDivider Class="mb-4" /> *@

@@ -1,7 +1,21 @@
-﻿<MudNavMenu>
+﻿@using CustomResumeBlazor.Domain.Mappers
+
+<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountCircle">About</MudNavLink>
-    <MudNavLink Href="experience" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Lightbulb">Experience</MudNavLink>
-    <MudNavLink Href="projects" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Construction">Projects</MudNavLink>
-    <MudNavLink Href="Resume" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.InsertDriveFile">Resume</MudNavLink>
-    <MudNavLink Href="contact" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Send">Contact</MudNavLink>
+
+    @if (hasLoaded)
+    {
+        foreach (var pageDetails in sortedOtherPages)
+        {
+            <MudNavLink Href="@RouteMapper.GetAllCardsRoute(pageDetails.Endpoint)" Match="NavLinkMatch.All" Icon="@IconMapper.GetIcon(pageDetails.Icon)">@pageDetails.Title</MudNavLink>
+        }
+    }
+    else
+    {
+        @foreach (var _ in Enumerable.Range(0, 3))
+        {
+            <MudNavLink Icon="@Icons.Material.Filled.IncompleteCircle">Loading...</MudNavLink>
+        }
+    }
+
 </MudNavMenu>

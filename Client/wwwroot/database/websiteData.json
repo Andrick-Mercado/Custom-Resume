@@ -1,0 +1,167 @@
+{
+  "configurations": {
+    "websiteTheme": "Blue",
+    "enableDarkMode": false
+  },
+  "personalInformation": {
+    "person": {
+      "firstName": "Andrick",
+      "lastName": "Mercado",
+      "fullName": "Andrick Mercado"
+    },
+    "socialMediaLinks": {
+      "linkedIn": "@username",
+      "mail": "andrickmercado@gmail.com",
+      "twitter": "@username",
+      "github": "@username"
+    }
+  },
+  "websiteData": {
+    "mainPage": {
+      "name": "My Portfolio",
+      "title": "About Me",
+      "imageRoute": "images/headshot1.jpg",
+      "icon": "AccountCircle",
+      "paragraphs": [
+        "I'm Michael Anthony Moreno, a California native who hails from the beautiful city of San Diego. I've always been passionate about finance and economics, which led me to pursue my education at UC Berkeley, where I studied Political Economy. This experience allowed me to delve deep into the world of economics, understanding the intricate connections between policy, finance, and global markets.",
+        "My education has equipped me with a strong foundation in financial analysis, market trends, and economic theory. I'm not only dedicated to learning but also to applying my knowledge in practical settings. I'm highly motivated and always open to exploring new opportunities, whether in the field of finance or any other sector where I can leverage my skills and make a meaningful impact.",
+        "I believe that the world of finance and business is dynamic, and I'm excited to be a part of this ever-evolving landscape. I'm constantly seeking new challenges and ways to contribute to the growth and success of the organizations and projects I engage with.",
+        "If you have an exciting opportunity or project in mind, don't hesitate to reach out. I'm ready to connect, collaborate, and explore new horizons."
+      ]
+    },
+    "otherPages": [
+      {
+        "sortOrder": 0,
+        "title": "Experience",
+        "endpoint": "experience",
+        "pageFormat": "Experience",
+        "icon": "Lightbulb",
+        "cards": [
+          {
+            "name": "A",
+            "title": "B",
+            "body": "C",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          }
+        ]
+      },
+      {
+        "sortOrder": 1,
+        "title": "Activities",
+        "endpoint": "activities",
+        "pageFormat": "Education",
+        "icon": "Construction",
+        "cards": [
+          {
+            "name": "E",
+            "title": "F",
+            "body": "G",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          }
+        ]
+      },
+      {
+        "sortOrder": 2,
+        "title": "Skills",
+        "endpoint": "skills",
+        "pageFormat": "Skill",
+        "icon": "AutoGraph",
+        "cards": [
+          {
+            "name": "Programming",
+            "title": "Python",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+{
+            "name": "Programming",
+            "title": "C#",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Programming",
+            "title": "Java",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Programming",
+            "title": "JavaScript",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Programming",
+            "title": "HTML",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Programming",
+            "title": "CSS",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Programming",
+            "title": "SQL",
+            "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Languages",
+            "title": "English",
+            "body": "Native",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          },
+          {
+            "name": "Languages",
+            "title": "Spanish",
+            "body": "Native",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": ""
+          }
+        ]
+      },
+      {
+        "sortOrder": 3,
+        "title": "Resume",
+        "endpoint": "resume",
+        "pageFormat": "GoogleDoc",
+        "icon": "InsertDriveFile",
+        "cards": [
+          {
+            "name": "123",
+            "title": "456",
+            "body": "1",
+            "icon": "Lightbulb",
+            "imageUrl": "",
+            "embedUrl": "https://docs.google.com/document/d/e/2PACX-1vRYn9jNDNsqdWkk3C8yWvkSTeqvBfhCircxOkMxlKngABFdNcSKuJuPBuyY8w4NqUQGYy8UjbqHHLRl/pub?embedded=true"
+          }
+        ]
+      }
+    ]
+  }
+}

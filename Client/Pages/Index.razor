@@ -1,30 +1,49 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
-
-<MudCarousel Class="mud-width-full" Style="height:200px;" ShowArrows=true ShowBullets=false EnableSwipeGesture=true AutoCycle=true TData="object">
-    <MudCarouselItem Transition="transition" Color="@Color.Primary">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.LinkedIn" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>
-    <MudCarouselItem Transition="transition" Color="@Color.Secondary">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.Gmail" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>
-    <MudCarouselItem Transition="transition">
-        <div class="d-flex" style="height:100%">
-            <MudIcon Class="mx-auto my-auto" Icon="@Icons.Custom.Brands.Twitter" Color="@Color.Primary" Size="@Size.Large" />
-        </div>
-    </MudCarouselItem>
-</MudCarousel>
-
-@code
+@if (hasLoaded)
 {
-    private Transition transition = Transition.Slide;
+    <PageTitle>@mainPage.Title</PageTitle>
+}
+else
+{
+    <PageTitle>Loading...</PageTitle>
 }
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<MudGrid Class="d-flex justify-center">
+    @if (hasLoaded )
+    {
+        <MudItem>
+            <MudImage ObjectFit="ObjectFit.Fill" Height="250" Width="200" Src="@mainPage.ImageRoute" Alt="Heahshot" Elevation="25" Class="rounded-lg" />
+        </MudItem>
+        <MudItem>
+            <MudText Typo="Typo.h3" GutterBottom="true">@mainPage.Title</MudText>
+                @foreach (var paragraph in mainPage.Paragraphs)
+            {
+                <MudText Class="mb-4">@paragraph</MudText>
+            }
+        </MudItem>
+    }
+    else
+    {
+        <MudItem>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg" />
+        </MudItem>
+        <MudItem>
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="200" Lines="1" />
+            @foreach (var _ in Enumerable.Range(0, 3))
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="200" Lines="4" Class="mb-4" />
+            }
+        </MudItem>
+        @* <MudGrid Class="d-flex justify-center">
+    <MudItem>
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg" />
+    </MudItem>
+    <MudItem>
+    <MudSkeleton />
+    <MudSkeleton Animation="Animation.False" />
+    <MudSkeleton Animation="Animation.Wave" />
+    </MudItem>
+    </MudGrid> *@
+    }
+</MudGrid>
