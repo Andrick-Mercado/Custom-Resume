@@ -1,0 +1,45 @@
+{
+  "configurations": {
+    "websiteTheme": "Blue",
+    "enableDarkMode": "false"
+  },
+  "personalInformation": {
+    "person": {
+      "firstName": "Andrick",
+      "lastName": "Mercado",
+      "fullName": "Andrick Mercado"
+    },
+    "socialMediaLinks": {
+      "linkedIn": "@username",
+      "mail": "andrickmercado@gmail.com",
+      "twitter": "@username",
+      "github": "@username"
+    }
+  },
+  "websiteData": {
+    "mainPage": {
+      "name": "A",
+      "title": "B",
+      "imageRoute": "C",
+      "icon": "AccountCircle",
+      "paragraphs": [
+        "string"
+      ]
+    },
+    "otherPages": [
+      {
+        "sortOrder": 0,
+        "cardType": "Skill",
+        "icon": "Lightbulb",
+        "cards": [
+          {
+            "name": "A",
+            "title": "B",
+            "body": "C",
+            "imageUrl": "D"
+          }
+        ]
+      }
+    ]
+  }
+}

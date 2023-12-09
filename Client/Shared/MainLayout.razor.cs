@@ -1,5 +1,4 @@
-using Blazored.LocalStorage;
-using CustomResumeBlazor.Domain;
+using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -8,7 +7,9 @@ namespace CustomResumeBlazor.Shared;
 public partial class MainLayout
 {
     [Inject]
-    public ProfileService ProfileService { get; set; }
+    public IProfileService ProfileService { get; set; }
+    [Inject]
+    public IDatabaseService DatabaseService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -27,6 +28,8 @@ public partial class MainLayout
 
         _isDarkCurrentTheme = await ProfileService.ToggleDarkMode();
         StateHasChanged();
+
+        var test = await DatabaseService.GetWebsiteDatabaseDataAsync();
     }
 
     #region Private fields
@@ -70,6 +73,6 @@ public partial class MainLayout
     private Preferences _preferences = new();
     private bool _isDarkCurrentTheme = true;
     private bool _drawerOpen = true;
-    #endregion
+    #endregion 
 }
 

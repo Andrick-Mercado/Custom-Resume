@@ -1,13 +1,14 @@
 ﻿using Blazored.LocalStorage;
 
-namespace CustomResumeBlazor.Domain;
+namespace CustomResumeBlazor.Infrastructure;
 
-public record Preferences
+public interface IProfileService
 {
-    public bool DarkMode { get; init; } = true;
+    Task<bool> ToggleDarkMode();
+    Task<Preferences> GetPreferences();
 }
 
-public class ProfileService
+public class ProfileService : IProfileService
 {
     private readonly ILocalStorageService _localStorageService;
 
@@ -20,8 +21,8 @@ public class ProfileService
     {
         var preferences = await GetPreferences();
         var newPreferences = preferences with
-        { 
-            DarkMode = !preferences.DarkMode 
+        {
+            DarkMode = !preferences.DarkMode
         };
 
         await _localStorageService.SetItemAsync("preferences", newPreferences);
@@ -34,4 +35,9 @@ public class ProfileService
         return await _localStorageService.GetItemAsync<Preferences>("preferences")
             ?? new Preferences();
     }
+}
+
+public record Preferences
+{
+    public bool DarkMode { get; init; } = true;
 }
