@@ -3,21 +3,40 @@
 <PageTitle>About</PageTitle>
 
 <MudGrid Class="d-flex justify-center">
-    <MudItem>
-        @if (hasLoaded)
-        {
-            <MudImage ObjectFit="ObjectFit.Fill" Height="250" Width="200" Src="images/headshot1.jpg" Alt="Heahshot" Elevation="25" Class="rounded-lg" />
-        }
-        else
-        {
+    @if (hasLoaded && websiteDatabaseData is not null)
+    {
+        <MudItem>
+            <MudImage ObjectFit="ObjectFit.Fill" Height="250" Width="200" Src="@websiteDatabaseData.WebsiteData.MainPage.ImageRoute" Alt="Heahshot" Elevation="25" Class="rounded-lg" />
+        </MudItem>
+        <MudItem>
+            <MudText Typo="Typo.h3" GutterBottom="true">@websiteDatabaseData.WebsiteData.MainPage.Title</MudText>
+                @foreach (var paragraph in websiteDatabaseData.WebsiteData.MainPage.Paragraphs)
+            {
+                <MudText Class="mb-4">@paragraph</MudText>
+            }
+        </MudItem>
+    }
+    else
+    {
+        <MudItem>
             <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg" />
-        }
+        </MudItem>
+        <MudItem>
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="200" Lines="1" />
+            @foreach (var _ in Enumerable.Range(0, 3))
+            {
+                <MudSkeleton SkeletonType="SkeletonType.Text" Width="200" Lines="4" Class="mb-4" />
+            }
+        </MudItem>
+        @* <MudGrid Class="d-flex justify-center">
+    <MudItem>
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg" />
     </MudItem>
     <MudItem>
-        <MudText Typo="Typo.h3" GutterBottom="true">About Me</MudText>
-        @* @foreach (var paragraph in AboutMe.Paragraphs)
-        {
-            <MudText Class="mb-4">@paragraph</MudText>
-        } *@
+    <MudSkeleton />
+    <MudSkeleton Animation="Animation.False" />
+    <MudSkeleton Animation="Animation.Wave" />
     </MudItem>
+    </MudGrid> *@
+    }
 </MudGrid>

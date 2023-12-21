@@ -8,8 +8,6 @@ public partial class MainLayout
 {
     [Inject]
     public IProfileService ProfileService { get; set; }
-    [Inject]
-    public IDatabaseService DatabaseService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,8 +26,6 @@ public partial class MainLayout
 
         _isDarkCurrentTheme = await ProfileService.ToggleDarkMode();
         StateHasChanged();
-
-        var test = await DatabaseService.GetWebsiteDatabaseDataAsync();
     }
 
     #region Private fields

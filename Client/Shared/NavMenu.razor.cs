@@ -2,9 +2,9 @@
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 
-namespace CustomResumeBlazor.Pages;
+namespace CustomResumeBlazor.Shared;
 
-public partial class Index
+public partial class NavMenu
 {
     [Inject]
     private IDatabaseService DatabaseService { get; set; }
@@ -20,4 +20,3 @@ public partial class Index
         StateHasChanged();
     }
 }
-
