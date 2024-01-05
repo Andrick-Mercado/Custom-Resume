@@ -10,7 +10,7 @@ public partial class Index
     private IDatabaseService DatabaseService { get; set; }
 
     private bool hasLoaded = false;
-    private WebsiteDatabaseData? websiteDatabaseData;
+    private WebsiteDatabaseData websiteDatabaseData;
 
     protected override async Task OnInitializedAsync()
     {
