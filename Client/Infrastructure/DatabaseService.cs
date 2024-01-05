@@ -1,5 +1,6 @@
 ﻿using CustomResumeBlazor.Domain;
 using Microsoft.AspNetCore.Components;
+using System.Net.Http.Json;
 namespace CustomResumeBlazor.Infrastructure;
 
 public interface IDatabaseService
@@ -30,7 +31,7 @@ public class DatabaseService : IDatabaseService
             }
         }
 
-        var websiteData = await _httpClient.GetJsonAsync<WebsiteDatabaseData>("database/websiteData.json");
+        var websiteData  = await _httpClient.GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json");
 
         if (websiteData is null)
             throw new Exception("Error deserializing website data");

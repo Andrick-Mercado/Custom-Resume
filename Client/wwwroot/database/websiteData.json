@@ -32,8 +32,55 @@
     "otherPages": [
       {
         "sortOrder": 0,
+        "title": "Experience",
+        "endpoint": "experience",
         "cardType": "Skill",
         "icon": "Lightbulb",
+        "cards": [
+          {
+            "name": "A",
+            "title": "B",
+            "body": "C",
+            "imageUrl": "D"
+          }
+        ]
+      },
+      {
+        "sortOrder": 1,
+        "title": "Activities",
+        "endpoint": "activities",
+        "cardType": "Skill",
+        "icon": "Construction",
+        "cards": [
+          {
+            "name": "A",
+            "title": "B",
+            "body": "C",
+            "imageUrl": "D"
+          }
+        ]
+      },
+      {
+        "sortOrder": 2,
+        "title": "Skills",
+        "endpoint": "skills",
+        "cardType": "Skill",
+        "icon": "AutoGraph",
+        "cards": [
+          {
+            "name": "A",
+            "title": "B",
+            "body": "C",
+            "imageUrl": "D"
+          }
+        ]
+      },
+      {
+        "sortOrder": 3,
+        "title": "Resume",
+        "endpoint": "resume",
+        "cardType": "Skill",
+        "icon": "InsertDriveFile",
         "cards": [
           {
             "name": "A",

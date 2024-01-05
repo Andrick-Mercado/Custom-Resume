@@ -14,9 +14,11 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
+        if (hasLoaded) return;
+
         await Task.Delay(3000);
         websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
-        hasLoaded = true;
+        hasLoaded = websiteDatabaseData is not null;
         StateHasChanged();
     }
 }

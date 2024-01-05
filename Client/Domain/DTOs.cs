@@ -58,6 +58,8 @@ public class MainPage
 public class OtherPages
 {
     public int SortOrder { get; set; }
+    public string Title { get; set; }
+    public string Endpoint { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public CardType PageFormat { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -75,6 +77,7 @@ public class Card
 
 
 #region Enums
+
 public enum WebsiteTheme
 {
     Blue,

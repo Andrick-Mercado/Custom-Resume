@@ -10,13 +10,18 @@ public partial class NavMenu
     private IDatabaseService DatabaseService { get; set; }
 
     private bool hasLoaded = false;
-    private WebsiteDatabaseData? websiteDatabaseData;
+    private WebsiteDatabaseData websiteDatabaseData;
+    private IOrderedEnumerable<OtherPages> sortedOtherPages;
 
     protected override async Task OnInitializedAsync()
     {
+        if (hasLoaded) return;
+
         await Task.Delay(3000);
+
         websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
-        hasLoaded = true;
+        hasLoaded = websiteDatabaseData is not null;
+        sortedOtherPages = websiteDatabaseData.WebsiteData.OtherPages.OrderBy(x => x.SortOrder);
         StateHasChanged();
     }
 }

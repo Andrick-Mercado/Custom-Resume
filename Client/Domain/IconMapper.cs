@@ -4,13 +4,13 @@ namespace CustomResumeBlazor.Domain;
 
 public static class IconMapper
 {
-    public static string GetIcon(string name) => name switch
+    public static string GetIcon(Icon icon) => icon switch
     {
-        "AccountCircle" => Icons.Material.Filled.AccountCircle,
-        "Lightbulb" => Icons.Material.Filled.Lightbulb,
-        "Construction" => Icons.Material.Filled.Construction,
-        "AutoGraph" => Icons.Material.Filled.AutoGraph,
-        "InsertDriveFile" => Icons.Material.Filled.InsertDriveFile,
+        Icon.AccountCircle => Icons.Material.Filled.AccountCircle,
+        Icon.Lightbulb => Icons.Material.Filled.Lightbulb,
+        Icon.Construction => Icons.Material.Filled.Construction,
+        Icon.AutoGraph => Icons.Material.Filled.AutoGraph,
+        Icon.InsertDriveFile => Icons.Material.Filled.InsertDriveFile,
         _ => Icons.Material.Filled.DeviceUnknown
     };
 }

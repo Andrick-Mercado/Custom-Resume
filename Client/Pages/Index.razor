@@ -1,9 +1,16 @@
 ﻿@page "/"
 
-<PageTitle>About</PageTitle>
+@if (hasLoaded)
+{
+    <PageTitle>@websiteDatabaseData.WebsiteData.MainPage.Title</PageTitle>
+}
+else
+{
+    <PageTitle>Loading...</PageTitle>
+}
 
 <MudGrid Class="d-flex justify-center">
-    @if (hasLoaded && websiteDatabaseData is not null)
+    @if (hasLoaded )
     {
         <MudItem>
             <MudImage ObjectFit="ObjectFit.Fill" Height="250" Width="200" Src="@websiteDatabaseData.WebsiteData.MainPage.ImageRoute" Alt="Heahshot" Elevation="25" Class="rounded-lg" />
