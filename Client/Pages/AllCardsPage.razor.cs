@@ -18,9 +18,21 @@ public partial class AllCardsPage
 
     protected override async Task OnInitializedAsync()
     {
-        if (hasLoaded) return;
+        //if (hasLoaded) return;
 
         await Task.Delay(3000);
+        websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
+        currentPage = websiteDatabaseData.WebsiteData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
+
+        if (currentPage is not null)
+            hasLoaded = true;
+
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
         websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
         currentPage = websiteDatabaseData.WebsiteData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
 
