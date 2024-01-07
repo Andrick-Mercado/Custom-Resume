@@ -1,0 +1,31 @@
+﻿@page "/defaultviewer/{ClientRouteName}"
+@using CustomResumeBlazor.Domain
+
+<PageTitle>@ClientRouteName</PageTitle>
+
+    @if (hasLoaded is false)
+{
+    <MudAlert Severity="Severity.Info" Variant="Variant.Filled" Class="m-4">
+        <MudAlertTitle>Page is loading...</MudAlertTitle>
+    </MudAlert>
+}
+else if (currentPage.PageFormat == CardType.Experience)
+{
+    <MudItem xs="12" md="12" Class="d-flex flex-wrap mt-4">
+        @foreach (var project in currentPage.Cards)
+        {
+            <MudItem Class="d-flex flex-wrap mr-4 mb-8">
+                <MudCard Square="true" Style="width:400px">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">@project.Title</MudText>
+                            <MudText Typo="Typo.body2">@project.Body</MudText>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+        }
+    </MudItem>
+}
