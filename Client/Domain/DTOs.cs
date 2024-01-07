@@ -89,7 +89,8 @@ public enum CardType
     Skill,
     Experience,
     Education,
-    Project
+    Project,
+    GoogleDoc
 }
 
 public enum Icon

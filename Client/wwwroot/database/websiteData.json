@@ -34,7 +34,7 @@
         "sortOrder": 0,
         "title": "Experience",
         "endpoint": "experience",
-        "cardType": "Skill",
+        "cardType": "Experience",
         "icon": "Lightbulb",
         "cards": [
           {
@@ -49,7 +49,7 @@
         "sortOrder": 1,
         "title": "Activities",
         "endpoint": "activities",
-        "cardType": "Skill",
+        "cardType": "Education",
         "icon": "Construction",
         "cards": [
           {
@@ -79,7 +79,7 @@
         "sortOrder": 3,
         "title": "Resume",
         "endpoint": "resume",
-        "cardType": "Skill",
+        "cardType": "GoogleDoc",
         "icon": "InsertDriveFile",
         "cards": [
           {
