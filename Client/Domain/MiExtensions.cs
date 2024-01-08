@@ -1,0 +1,12 @@
+﻿namespace CustomResumeBlazor.Domain;
+
+public static class MiExtersions
+{
+    public static string FirstCharToUpper(this string input) =>
+        input switch
+        {
+            null => string.Empty,
+            "" => input,
+            _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
+        };
+}

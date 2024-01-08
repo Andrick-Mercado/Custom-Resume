@@ -17,8 +17,6 @@ public partial class NavMenu
     {
         if (hasLoaded) return;
 
-        await Task.Delay(3000);
-
         websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
         hasLoaded = websiteDatabaseData is not null;
         sortedOtherPages = websiteDatabaseData.WebsiteData.OtherPages.OrderBy(x => x.SortOrder);

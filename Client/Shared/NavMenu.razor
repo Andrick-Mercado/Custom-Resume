@@ -4,7 +4,6 @@
 
     @if (hasLoaded)
     {
-        // parse sorted pages
         foreach (var pageDetails in sortedOtherPages)
         {
             <MudNavLink Href="@RouteMapper.GetAllCardsRoute(pageDetails.Endpoint)" Match="NavLinkMatch.All" Icon="@IconMapper.GetIcon(pageDetails.Icon)">@pageDetails.Title</MudNavLink>

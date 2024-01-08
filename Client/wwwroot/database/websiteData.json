@@ -34,7 +34,7 @@
         "sortOrder": 0,
         "title": "Experience",
         "endpoint": "experience",
-        "cardType": "Experience",
+        "pageFormat": "Experience",
         "icon": "Lightbulb",
         "cards": [
           {
@@ -49,7 +49,7 @@
         "sortOrder": 1,
         "title": "Activities",
         "endpoint": "activities",
-        "cardType": "Education",
+        "pageFormat": "Education",
         "icon": "Construction",
         "cards": [
           {
@@ -64,7 +64,7 @@
         "sortOrder": 2,
         "title": "Skills",
         "endpoint": "skills",
-        "cardType": "Skill",
+        "pageFormat": "Skill",
         "icon": "AutoGraph",
         "cards": [
           {
@@ -79,14 +79,14 @@
         "sortOrder": 3,
         "title": "Resume",
         "endpoint": "resume",
-        "cardType": "GoogleDoc",
+        "pageFormat": "GoogleDoc",
         "icon": "InsertDriveFile",
         "cards": [
           {
-            "name": "M",
-            "title": "N",
-            "body": "P",
-            "imageUrl": "T"
+            "name": "Test Neew",
+            "title": "Test Neew 0",
+            "body": "Test Neew 1",
+            "imageUrl": "Test Neew"
           }
         ]
       }

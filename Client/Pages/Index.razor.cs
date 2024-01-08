@@ -16,7 +16,6 @@ public partial class Index
     {
         if (hasLoaded) return;
 
-        await Task.Delay(3000);
         websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
         hasLoaded = websiteDatabaseData is not null;
         StateHasChanged();
