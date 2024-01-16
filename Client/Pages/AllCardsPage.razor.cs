@@ -7,58 +7,53 @@ namespace CustomResumeBlazor.Pages;
 public partial class AllCardsPage
 {
     [Parameter]
-    public string ClientRouteName { get; set; }
+    public string ClientRouteName { get; set; } = default!;
 
     [Inject]
-    private IWebsiteRepo WebsiteRepo { get; set; }
+    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
-    private bool hasLoaded = false;
-    private WebsiteData websiteDatabaseData;
-    private OtherPages currentPage;
+    private bool _hasLoaded = false;
+    private WebsiteData? _websiteDatabaseData;
+    private OtherPages? _currentPage;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        if (hasLoaded && ClientRouteName == currentPage.Endpoint) return;
+        if (_hasLoaded && ClientRouteName == _currentPage?.Endpoint) return;
 
-        websiteDatabaseData = await WebsiteRepo.GetWebsiteDataAsync();
-        currentPage = websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
+        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+        _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
 
-        if (currentPage is not null)
-            hasLoaded = true;
-
-
+        _hasLoaded = _currentPage is not null;
         StateHasChanged();
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
-        if (websiteDatabaseData is null)
+        if (_websiteDatabaseData is null)
         {
-            websiteDatabaseData = await WebsiteRepo.GetWebsiteDataAsync();
-            currentPage = websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
+            _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+            _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
+        }
+        else if (_currentPage is not null && ClientRouteName != _currentPage.Endpoint)
+        {
+            _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
+        }
+        else
+        {
+            _currentPage ??= _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
         }
 
-        if (currentPage is not null && ClientRouteName != currentPage.Endpoint)
-            currentPage = websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
-        else if (currentPage is null)
-            currentPage = websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
-
-        if (currentPage is not null)
-            hasLoaded = true;
-        else
-            hasLoaded = false;
-
-
+        _hasLoaded = _currentPage is not null;
         StateHasChanged();
     }
 
     private IEnumerable<IGrouping<string, Card>> GetCardsGroupedByCardName()
     {
-        return currentPage.Cards.GroupBy(x => x.Name);
+        return _currentPage?.Cards.GroupBy(x => x.Name) ?? Array.Empty<IGrouping<string, Card>>();
     }
 
-    private Card GetGoogleDocCard()
+    private Card GetFirstCard()
     {
-        return currentPage.Cards.FirstOrDefault();
+        return _currentPage?.Cards.FirstOrDefault() ?? new Card();
     }
 }

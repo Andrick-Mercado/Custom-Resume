@@ -7,19 +7,19 @@ namespace CustomResumeBlazor.Shared;
 public partial class NavMenu
 {
     [Inject]
-    private IDatabaseService DatabaseService { get; set; }
+    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
     private bool hasLoaded = false;
-    private WebsiteDatabaseData websiteDatabaseData;
-    private IOrderedEnumerable<OtherPages> sortedOtherPages;
+    private WebsiteData? websiteData;
+    private IOrderedEnumerable<OtherPages>? sortedOtherPages;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         if (hasLoaded) return;
 
-        websiteDatabaseData = await DatabaseService.GetWebsiteDatabaseDataAsync();
-        hasLoaded = websiteDatabaseData is not null;
-        sortedOtherPages = websiteDatabaseData.WebsiteData.OtherPages.OrderBy(x => x.SortOrder);
+        websiteData = WebsiteRepo.GetWebsiteData();
+        hasLoaded = websiteData is not null;
+        sortedOtherPages = websiteData?.OtherPages?.OrderBy(x => x.SortOrder);
         StateHasChanged();
     }
 }

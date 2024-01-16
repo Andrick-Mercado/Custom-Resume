@@ -1,31 +1,80 @@
-﻿@inherits LayoutComponentBase
+﻿@using CustomResumeBlazor.Domain.Mappers
+@inherits LayoutComponentBase
 
-<MudLayout>
+@if (_hasLoaded is false)
+{
+    <MudLayout>
+        <MudAppBar Elevation="0">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            <MudText Typo="Typo.h6" Class="ml-4">Loading...</MudText>
+            <MudIconButton Icon="@Icons.Material.Filled.IncompleteCircle" Color="Color.Inherit" />
+            <MudIconButton Icon="@Icons.Material.Filled.IncompleteCircle" Color="Color.Inherit" />
+            <MudSpacer />
+        </MudAppBar>
 
-    <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h6" Class="ml-4">Michael Moreno</MudText>
-        <MudIconButton Icon="@Icons.Custom.Brands.Gmail" Color="Color.Inherit" Href="mailto:jasopimike@berkeley.edu" />
-        <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Href="https://www.linkedin.com/in/michael-moreno-0068111a4/" Target="_blank" />
-        <MudSpacer />
-        <MudToggleIconButton Toggled="@_isDarkCurrentTheme" ToggledChanged="ChangeThemeAsync"
-                             Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="DarkMode"
-                             ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="LightMode" />
-    </MudAppBar>
+        <MudDrawer @bind-Open="_drawerOpen" Variant="@DrawerVariant.Responsive">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">Loading</MudText>
+            </MudDrawerHeader>
+            <NavMenu />
+        </MudDrawer>
 
-    <MudDrawer @bind-Open="_drawerOpen" Variant="@DrawerVariant.Responsive">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">My Portfolio</MudText>
-        </MudDrawerHeader>
-        <NavMenu />
-    </MudDrawer>
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.Large" Class="pt-10">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+}
+else
+{
+    <MudLayout>
 
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="pt-10">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+        <MudAppBar Elevation="0">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            <MudText Typo="Typo.h6" Class="ml-4">@_personalInformation?.Person.FullName</MudText>
+
+                @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.Mail) is false)
+            {
+                <MudIconButton Icon="@Icons.Custom.Brands.Gmail" Color="Color.Inherit" Href="@UriMapper.GetMailUri(_personalInformation.SocialMediaLinks.Mail)" />
+            }
+            @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.LinkedIn) is false)
+            {
+                <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Href="@UriMapper.GetLinkedInUri(_personalInformation.SocialMediaLinks.LinkedIn)" Target="_blank" />
+            }
+            @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.Twitter) is false)
+            {
+                <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Color="Color.Inherit" Href="@UriMapper.GetTwitterUri(_personalInformation.SocialMediaLinks.Twitter)" Target="_blank" />
+            }
+            @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.Github) is false)
+            {
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="@UriMapper.GetGitHubUri(_personalInformation.SocialMediaLinks.Github)" Target="_blank" />
+            }
+
+            <MudSpacer />
+            @if (_configurations?.EnableDarkMode ?? false)
+            {
+                <MudToggleIconButton Toggled="@_isDarkCurrentTheme" ToggledChanged="ChangeThemeAsync"
+                                     Icon="@Icons.Material.Filled.DarkMode" Color="@Color.Inherit" Title="DarkMode"
+                                     ToggledIcon="@Icons.Material.Filled.LightMode" ToggledColor="@Color.Inherit" ToggledTitle="LightMode" />
+            }
+        </MudAppBar>
+
+        <MudDrawer @bind-Open="_drawerOpen" Variant="@DrawerVariant.Responsive">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">@_mainPage?.Name</MudText>
+                </MudDrawerHeader>
+                <NavMenu />
+            </MudDrawer>
+
+            <MudMainContent>
+                <MudContainer MaxWidth="MaxWidth.Large" Class="pt-10">
+                    @Body
+            </MudContainer>
+        </MudMainContent>
+    </MudLayout>
+}
+
 
 <MudThemeProvider @bind-IsDarkMode="@_isDarkCurrentTheme" Theme="@_currentTheme" />
 <MudDialogProvider />

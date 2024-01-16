@@ -12,6 +12,8 @@ public class ProfileService : IProfileService
 {
     private readonly ILocalStorageService _localStorageService;
 
+    private const string PreferencesKey = nameof(Preferences);
+
     public ProfileService(ILocalStorageService localStorageService)
     {
         _localStorageService = localStorageService;
@@ -25,19 +27,18 @@ public class ProfileService : IProfileService
             DarkMode = !preferences.DarkMode
         };
 
-        await _localStorageService.SetItemAsync("preferences", newPreferences);
+        await _localStorageService.SetItemAsync(PreferencesKey, newPreferences);
 
         return newPreferences.DarkMode;
     }
 
     public async Task<Preferences> GetPreferences()
     {
-        return await _localStorageService.GetItemAsync<Preferences>("preferences")
-            ?? new Preferences();
+        return await _localStorageService.GetItemAsync<Preferences>(PreferencesKey) ?? new Preferences();
     }
 }
 
 public record Preferences
 {
-    public bool DarkMode { get; init; } = true;
+    public bool DarkMode { get; init; } = false;
 }

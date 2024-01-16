@@ -1,18 +1,24 @@
+using CustomResumeBlazor.Domain;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Preferences = CustomResumeBlazor.Infrastructure.Preferences;
 
 namespace CustomResumeBlazor.Shared;
 
 public partial class MainLayout
 {
-    [Inject]
-    public IProfileService ProfileService { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         _preferences = await ProfileService.GetPreferences();
         _isDarkCurrentTheme = _preferences.DarkMode;
+
+        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+        _configurations = WebsiteRepo.GetConfigurations();
+        _personalInformation = WebsiteRepo.GetPersonalInformation();
+        _mainPage = _websiteDatabaseData.MainPage;
+
+        _hasLoaded = true;
         StateHasChanged();
     }
 
@@ -29,46 +35,24 @@ public partial class MainLayout
     }
 
     #region Private fields
-    private readonly MudTheme _currentTheme = new()
-    {
-        Palette = new PaletteLight
-        {
-            AppbarBackground = "#0097FF",
-            AppbarText = "#FFFFFF",
-            Primary = "#007CD1",
-            TextPrimary = "#0C1217",
-            Background = "#F4FDFF",
-            TextSecondary = "#0C1217",
-            DrawerBackground = "#C5E5FF",
-            DrawerIcon = "#000000",
-            DrawerText = "#0C1217",
-            Surface = "#E4FAFF",
-            ActionDefault = "#0C1217",
-            ActionDisabled = "#2F678C",
-            TextDisabled = "#676767",
-
-        },
-        PaletteDark = new PaletteDark
-        {
-            AppbarBackground = "#0097FF",
-            AppbarText = "#FFFFFF",
-            Primary = "#007CD1",
-            Secondary = "#000000",
-            TextPrimary = "#FFFFFF",
-            Background = "#001524",
-            TextSecondary = "#E2EEF6",
-            DrawerBackground = "#093958",
-            DrawerIcon = "#FFFFFF",
-            DrawerText = "#FFFFFF",
-            Surface = "#093958",
-            ActionDefault = "#0C1217",
-            ActionDisabled = "#2F678C",
-            TextDisabled = "#B0B0B0"
-        }
-    };
+    private MudTheme _currentTheme => ThemeManager.GetMudTheme(_configurations?.WebsiteTheme ?? WebsiteTheme.Blue);
+    private bool _hasLoaded;
+    private WebsiteData? _websiteDatabaseData;
+    private PersonalInformation? _personalInformation;
+    private Configurations? _configurations;
+    private MainPage? _mainPage;
     private Preferences _preferences = new();
-    private bool _isDarkCurrentTheme = true;
+    private bool _isDarkCurrentTheme = false;
     private bool _drawerOpen = true;
-    #endregion 
+    #endregion
+
+    #region Injected services
+
+    [Inject]
+    public IProfileService ProfileService { get; set; } = default!;
+    [Inject]
+    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
+
+    #endregion
 }
 

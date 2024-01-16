@@ -10,7 +10,6 @@ public class WebsiteDatabaseData
     public PersonalInformation PersonalInformation { get; set; }
     public WebsiteData WebsiteData { get; set; }
 }
-
 public class Configurations
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -76,6 +75,7 @@ public class Card
     public Icon Icon { get; set; }
     public string ImageUrl { get; set; }
     public string EmbedUrl { get; set; }
+    public string LearnMoreUrl { get; set; }
 }
 
 
@@ -84,7 +84,7 @@ public class Card
 public enum WebsiteTheme
 {
     Blue,
-    Dark
+    Green
 }
 
 public enum CardType
@@ -93,7 +93,7 @@ public enum CardType
     Experience,
     Education,
     Project,
-    GoogleDoc
+    ExternalLink
 }
 
 public enum Icon

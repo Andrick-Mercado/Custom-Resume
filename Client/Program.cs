@@ -9,11 +9,14 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddMudServices();
-builder.Services.AddSingleton<IWebsiteRepo, WebsiteRepo>();
-builder.Services.AddScoped<IProfileService, ProfileService>();
-builder.Services.AddHttpClient<IDatabaseService, DatabaseService>();
-builder.Services.AddBlazoredLocalStorage();
+
+var websiteRepo = new WebsiteRepo(new DatabaseService(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }));
+await websiteRepo.InitializeAsync();
+builder.Services.AddSingleton<IWebsiteRepo>(websiteRepo);
+
+builder.Services.AddSingleton<IProfileService, ProfileService>();
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 await builder.Build().RunAsync();

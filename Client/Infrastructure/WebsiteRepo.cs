@@ -4,35 +4,38 @@ namespace CustomResumeBlazor.Infrastructure;
 
 public interface IWebsiteRepo
 {
-    Task<Configurations> GetConfigurationsAsync();
-    Task<PersonalInformation> GetPersonalInformationAsync();
-    Task<WebsiteData> GetWebsiteDataAsync();
+    Configurations GetConfigurations();
+    PersonalInformation GetPersonalInformation();
+    WebsiteData GetWebsiteData();
 }
 
 public class WebsiteRepo : IWebsiteRepo
 {
     private readonly IDatabaseService _databaseService;
+    private WebsiteDatabaseData _websiteDatabaseData = default!;
 
     public WebsiteRepo(IDatabaseService databaseService)
     {
         _databaseService = databaseService;
     }
 
-    public async Task<Configurations> GetConfigurationsAsync()
+    public async Task InitializeAsync()
     {
-        var websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
-        return websiteDatabaseData.Configurations;
+        _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
     }
 
-    public async Task<PersonalInformation> GetPersonalInformationAsync()
+    public Configurations GetConfigurations()
     {
-        var websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
-        return websiteDatabaseData.PersonalInformation;
+        return _websiteDatabaseData.Configurations;
     }
 
-    public async Task<WebsiteData> GetWebsiteDataAsync()
+    public PersonalInformation GetPersonalInformation()
     {
-        var websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
-        return websiteDatabaseData.WebsiteData;
+        return _websiteDatabaseData.PersonalInformation;
+    }
+
+    public WebsiteData GetWebsiteData()
+    {
+        return _websiteDatabaseData.WebsiteData;
     }
 }
