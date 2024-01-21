@@ -1,6 +1,6 @@
 {
   "configurations": {
-    "websiteTheme": "Blue",
+    "websiteTheme": "Green",
     "enableDarkMode": false
   },
   "personalInformation": {
@@ -12,8 +12,8 @@
     "socialMediaLinks": {
       "linkedIn": "andrick-mercado",
       "mail": "andrickmercado17@gmail.com",
-      "twitter": "@username",
-      "github": "@username"
+      "twitter": "Andrick98366211",
+      "github": "andrick-mercado"
     }
   },
   "websiteData": {
@@ -79,7 +79,7 @@
             "imageUrl": "",
             "embedUrl": ""
           },
-{
+          {
             "name": "Programming",
             "title": "C#",
             "body": "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
