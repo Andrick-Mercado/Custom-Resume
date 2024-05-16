@@ -2,9 +2,8 @@ using CustomResumeBlazor.Domain;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using Preferences = CustomResumeBlazor.Infrastructure.Preferences;
 
-namespace CustomResumeBlazor.Shared;
+namespace CustomResume.Blazor.Shared;
 
 public partial class MainLayout
 {
@@ -55,4 +54,3 @@ public partial class MainLayout
 
     #endregion
 }
-

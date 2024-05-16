@@ -25,19 +25,23 @@ jobs:
 
     # publishes Blazor project to the Prerender/output folder
     - name: Publish .NET Core Project
-      run: dotnet publish Client/CustomResumeBlazor.csproj -c Release -o Prerender/output --nologo
+      run: dotnet publish Client/CustomResume.Blazor.csproj -c Release -o Prerender/output --nologo
 
     # Use NodeJS react-snap utitility to prerender static website
     - name: prerender Blazor client
       working-directory: Prerender
       run: npx react-snap
     
+    - name: Extract branch name
+      shell: bash
+      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+
     # change base tag in all html files to include subfolder
     - name: Change base tag
       working-directory: Prerender/output/wwwroot
       run: |
         find . -name "*.html" | while read htmlFile; do
-            sed -i 's/<base href="\/"/<base href="\/Custom-Resume\/"/g' $htmlFile
+            sed -i 's/<base href="\/"/<base href="\/${{ env.BRANCH_NAME }}\/"/g' $htmlFile
             sed -i 's/mud-drawer-close-responsive-md-left/mud-drawer-open-responsive-md-left/g' $htmlFile
             sed -i 's/mud-drawer--closed/mud-drawer--open/g' $htmlFile
         done

@@ -1,10 +1,10 @@
-﻿using CustomResumeBlazor.Domain;
+using CustomResumeBlazor.Domain;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 
-namespace CustomResumeBlazor.Pages;
+namespace CustomResume.Library.Application.Components;
 
-public partial class AllCardsPage
+public partial class DisplayAllCardsPage
 {
     [Parameter]
     public string ClientRouteName { get; set; } = default!;

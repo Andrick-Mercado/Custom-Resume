@@ -1,10 +1,10 @@
-﻿using CustomResumeBlazor.Domain;
+using CustomResumeBlazor.Domain;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 
-namespace CustomResumeBlazor.Pages;
+namespace CustomResume.Library.Application;
 
-public partial class Index
+public partial class LandingPage
 {
     [Inject]
     private IWebsiteRepo WebsiteRepo { get; set; } = default!;
@@ -22,5 +22,6 @@ public partial class Index
         mainPage = websiteDatabaseData?.MainPage;
         StateHasChanged();
     }
-}
 
+
+}
