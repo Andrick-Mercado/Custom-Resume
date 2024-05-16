@@ -1,5 +1,5 @@
 using Blazored.LocalStorage;
-using CustomResumeBlazor;
+using CustomResume.Blazor;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

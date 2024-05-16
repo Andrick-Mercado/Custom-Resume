@@ -34,7 +34,7 @@ else
             <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
             <MudText Typo="Typo.h6" Class="ml-4">@_personalInformation?.Person.FullName</MudText>
 
-                @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.Mail) is false)
+            @if (string.IsNullOrEmpty(_personalInformation?.SocialMediaLinks.Mail) is false)
             {
                 <MudIconButton Icon="@Icons.Custom.Brands.Gmail" Color="Color.Inherit" Href="@UriMapper.GetMailUri(_personalInformation.SocialMediaLinks.Mail)" />
             }
@@ -63,13 +63,13 @@ else
         <MudDrawer @bind-Open="_drawerOpen" Variant="@DrawerVariant.Responsive">
             <MudDrawerHeader>
                 <MudText Typo="Typo.h6">@_mainPage?.Name</MudText>
-                </MudDrawerHeader>
-                <NavMenu />
-            </MudDrawer>
+            </MudDrawerHeader>
+            <NavMenu />
+        </MudDrawer>
 
-            <MudMainContent>
-                <MudContainer MaxWidth="MaxWidth.Large" Class="pt-10">
-                    @Body
+        <MudMainContent>
+            <MudContainer MaxWidth="MaxWidth.Large" Class="pt-10">
+                @Body
             </MudContainer>
         </MudMainContent>
     </MudLayout>
@@ -79,4 +79,3 @@ else
 <MudThemeProvider @bind-IsDarkMode="@_isDarkCurrentTheme" Theme="@_currentTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
-

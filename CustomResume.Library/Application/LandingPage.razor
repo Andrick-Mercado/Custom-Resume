@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@using CustomResumeBlazor.Domain
+@using CustomResumeBlazor.Infrastructure
 
 @if (hasLoaded)
 {
@@ -17,7 +18,7 @@ else
         </MudItem>
         <MudItem>
             <MudText Typo="Typo.h3" GutterBottom="true">@mainPage?.Title</MudText>
-                @foreach (var paragraph in mainPage?.Paragraphs ?? Enumerable.Empty<string>())
+            @foreach (var paragraph in mainPage?.Paragraphs ?? Enumerable.Empty<string>())
             {
                 <MudText Class="mb-4">@paragraph</MudText>
             }
@@ -35,15 +36,6 @@ else
                 <MudSkeleton SkeletonType="SkeletonType.Text" Width="200" Lines="4" Class="mb-4" />
             }
         </MudItem>
-        @* <MudGrid Class="d-flex justify-center">
-    <MudItem>
-    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg" />
-    </MudItem>
-    <MudItem>
-    <MudSkeleton />
-    <MudSkeleton Animation="Animation.False" />
-    <MudSkeleton Animation="Animation.Wave" />
-    </MudItem>
-    </MudGrid> *@
     }
 </MudGrid>
+
