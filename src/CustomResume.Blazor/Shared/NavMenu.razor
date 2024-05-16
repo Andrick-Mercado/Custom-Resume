@@ -1,0 +1,30 @@
+﻿@using CustomResumeBlazor.Domain
+@using CustomResumeBlazor.Domain.Mappers
+
+<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountCircle">About</MudNavLink>
+
+    @if (hasLoaded)
+    {
+        foreach (var pageDetails in sortedOtherPages ?? Enumerable.Empty<OtherPages>())
+        {
+            if (pageDetails.PageFormat == CardType.ExternalLink)
+            {
+                <MudNavLink Href="@UriMapper.GetExternalLinked(pageDetails.Endpoint)" Match="NavLinkMatch.Prefix" Icon="@IconMapper.GetIcon(pageDetails.Icon)" Target="_blank">@pageDetails.Title</MudNavLink>
+            }
+            else
+            {
+                <MudNavLink Href="@RouteMapper.GetAllCardsRoute(pageDetails.Endpoint)" Match="NavLinkMatch.Prefix" Icon="@IconMapper.GetIcon(pageDetails.Icon)">@pageDetails.Title</MudNavLink>
+            }
+        }
+    }
+    else
+    {
+        @foreach (var _ in Enumerable.Range(0, 3))
+        {
+            <MudNavLink Icon="@Icons.Material.Filled.IncompleteCircle">Loading...</MudNavLink>
+        }
+    }
+
+</MudNavMenu>
+
