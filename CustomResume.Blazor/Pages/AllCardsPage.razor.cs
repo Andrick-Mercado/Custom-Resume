@@ -6,9 +6,4 @@ public partial class AllCardsPage
 {
     [Parameter]
     public string ClientRouteName { get; set; } = default!;
-
-    protected override void OnParametersSet()
-    {
-        StateHasChanged();
-    }
 }
