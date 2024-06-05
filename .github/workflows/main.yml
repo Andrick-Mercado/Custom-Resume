@@ -32,6 +32,7 @@ jobs:
       working-directory: Prerender
       run: npx react-snap
 
+    # Extract repo name from GITHUB_REPOSITORY environment variable
     - name: Extract repo name
       shell: bash
       run: echo "REPO_NAME=$(echo ${GITHUB_REPOSITORY#*/})" >> $GITHUB_ENV
