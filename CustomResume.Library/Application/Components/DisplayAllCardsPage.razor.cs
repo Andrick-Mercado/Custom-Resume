@@ -1,16 +1,20 @@
 using CustomResumeBlazor.Domain;
 using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace CustomResume.Library.Application.Components;
 
-public partial class DisplayAllCardsPage
+public partial class DisplayAllCardsPage 
 {
     [Parameter]
     public string ClientRouteName { get; set; } = default!;
 
     [Inject]
     private IWebsiteRepo WebsiteRepo { get; set; } = default!;
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
 
     private bool _hasLoaded = false;
     private WebsiteData? _websiteDatabaseData;
@@ -29,6 +33,7 @@ public partial class DisplayAllCardsPage
 
     protected override void OnParametersSet()
     {
+         JSRuntime.InvokeVoidAsync("console.log", $"ClientRouteName: {ClientRouteName}");
         if (_websiteDatabaseData is null)
         {
             _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
