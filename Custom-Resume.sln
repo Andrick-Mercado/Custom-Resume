@@ -5,14 +5,16 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{891A0E54-7DDC-4B67-A1D1-44422E8C7886}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B572C0C6-88DE-4E05-A3FD-1B203189EA15}"
-	ProjectSection(SolutionItems) = preProject
-		test.cs = test.cs
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Blazor", "src\CustomResume.Blazor\CustomResume.Blazor.csproj", "{869868F3-02EE-4A50-9D8C-CE357A8808A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Library", "src\CustomResume.Library\CustomResume.Library.csproj", "{DEBE62A4-2F9E-4236-8D16-3F2BC15D2256}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{93B73DAF-6EF8-4361-A857-E46AD562BEF9}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		prerender\package.json = prerender\package.json
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

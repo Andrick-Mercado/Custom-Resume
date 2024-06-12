@@ -25,7 +25,7 @@ jobs:
 
     # publishes Blazor project to the prerender/output folder
     - name: Publish .NET Core Project
-      run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo
+      run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o ./prerender/output --nologo
 
     # Use NodeJS react-snap utitility to prerender static website
     - name: prerender Blazor client
