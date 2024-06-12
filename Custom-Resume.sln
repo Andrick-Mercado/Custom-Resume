@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Blazor", "Cust
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Library", "CustomResume.Library\CustomResume.Library.csproj", "{35E0A33A-FB6D-400C-AE6A-2F76C1C39646}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{891A0E54-7DDC-4B67-A1D1-44422E8C7886}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B572C0C6-88DE-4E05-A3FD-1B203189EA15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A912E35-2585-41D3-A0D9-DDB6727426B9} = {891A0E54-7DDC-4B67-A1D1-44422E8C7886}
+		{35E0A33A-FB6D-400C-AE6A-2F76C1C39646} = {891A0E54-7DDC-4B67-A1D1-44422E8C7886}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B98459E4-DA48-456F-AF12-D1208270E92C}

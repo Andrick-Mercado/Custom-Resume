@@ -13,9 +13,6 @@ public partial class DisplayAllCardsPage
     [Inject]
     private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
-    [Inject]
-    private IJSRuntime JSRuntime { get; set; } = default!;
-
     private bool _hasLoaded = false;
     private WebsiteData? _websiteDatabaseData;
     private OtherPages? _currentPage;
@@ -33,7 +30,6 @@ public partial class DisplayAllCardsPage
 
     protected override void OnParametersSet()
     {
-         JSRuntime.InvokeVoidAsync("console.log", $"ClientRouteName: {ClientRouteName}");
         if (_websiteDatabaseData is null)
         {
             _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
