@@ -2,7 +2,7 @@
 @using CustomResumeBlazor.Domain.Mappers
 
 <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountCircle">About</MudNavLink>
+    <MudNavLink Href="" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AccountCircle">About</MudNavLink>
 
     @if (hasLoaded)
     {
@@ -10,11 +10,11 @@
         {
             if (pageDetails.PageFormat == CardType.ExternalLink)
             {
-                <MudNavLink Href="@UriMapper.GetExternalLinked(pageDetails.Endpoint)" Match="NavLinkMatch.All" Icon="@IconMapper.GetIcon(pageDetails.Icon)" Target="_blank">@pageDetails.Title</MudNavLink>
+                <MudNavLink Href="@UriMapper.GetExternalLinked(pageDetails.Endpoint)" Match="NavLinkMatch.Prefix" Icon="@IconMapper.GetIcon(pageDetails.Icon)" Target="_blank">@pageDetails.Title</MudNavLink>
             }
             else
             {
-                <MudNavLink Href="@RouteMapper.GetAllCardsRoute(pageDetails.Endpoint)" Match="NavLinkMatch.All" Icon="@IconMapper.GetIcon(pageDetails.Icon)">@pageDetails.Title</MudNavLink>
+                <MudNavLink Href="@RouteMapper.GetAllCardsRoute(pageDetails.Endpoint)" Match="NavLinkMatch.Prefix" Icon="@IconMapper.GetIcon(pageDetails.Icon)">@pageDetails.Title</MudNavLink>
             }
         }
     }
