@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Maui", "src\CustomResume.Maui\CustomResume.Maui.csproj", "{2D49BF1A-5586-402F-A0DC-57EBDF056030}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,12 @@ Global
 		{DEBE62A4-2F9E-4236-8D16-3F2BC15D2256}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEBE62A4-2F9E-4236-8D16-3F2BC15D2256}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEBE62A4-2F9E-4236-8D16-3F2BC15D2256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{869868F3-02EE-4A50-9D8C-CE357A8808A8} = {891A0E54-7DDC-4B67-A1D1-44422E8C7886}
 		{DEBE62A4-2F9E-4236-8D16-3F2BC15D2256} = {891A0E54-7DDC-4B67-A1D1-44422E8C7886}
+		{2D49BF1A-5586-402F-A0DC-57EBDF056030} = {891A0E54-7DDC-4B67-A1D1-44422E8C7886}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B98459E4-DA48-456F-AF12-D1208270E92C}
