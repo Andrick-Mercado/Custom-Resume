@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
 
-namespace CustomResumeBlazor.Infrastructure;
+namespace CustomResume.Library.Infrastructure;
 
 public interface IProfileService
 {

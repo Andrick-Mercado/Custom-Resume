@@ -1,27 +1,25 @@
+using CustomResume.Library.Domain;
+using CustomResume.Library.Infrastructure;
 using CustomResumeBlazor.Domain;
-using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 
-namespace CustomResume.Library.Application;
+namespace CustomResume.Library.Application.Components;
 
 public partial class LandingPage
 {
-    [Inject]
-    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
+    [Inject] private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
     private bool hasLoaded = false;
     private WebsiteData? websiteDatabaseData;
     private MainPage? mainPage;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (hasLoaded) return;
 
-        websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+        websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
         hasLoaded = websiteDatabaseData is not null;
         mainPage = websiteDatabaseData?.MainPage;
         StateHasChanged();
     }
-
-
 }

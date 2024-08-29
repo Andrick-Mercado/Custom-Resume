@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CustomResumeBlazor.Domain;
+namespace CustomResume.Library.Domain;
 
 public class DTOs { }
 

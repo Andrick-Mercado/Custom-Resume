@@ -1,38 +1,36 @@
+using CustomResume.Library.Domain;
+using CustomResume.Library.Infrastructure;
 using CustomResumeBlazor.Domain;
-using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace CustomResume.Library.Application.Components;
 
-public partial class DisplayAllCardsPage 
+public partial class DisplayAllCardsPage
 {
-    [Parameter]
-    public string ClientRouteName { get; set; } = default!;
+    [Parameter] public string ClientRouteName { get; set; } = default!;
 
-    [Inject]
-    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
+    [Inject] private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
     private bool _hasLoaded = false;
     private WebsiteData? _websiteDatabaseData;
     private OtherPages? _currentPage;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (_hasLoaded && ClientRouteName == _currentPage?.Endpoint) return;
 
-        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+        _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
         _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
 
         _hasLoaded = _currentPage is not null;
         StateHasChanged();
     }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if (_websiteDatabaseData is null)
         {
-            _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+            _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
             _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
         }
         else if (_currentPage is not null && ClientRouteName != _currentPage.Endpoint)

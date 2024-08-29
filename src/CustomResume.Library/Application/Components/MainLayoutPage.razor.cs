@@ -1,20 +1,21 @@
+﻿using CustomResume.Library.Domain;
+using CustomResume.Library.Infrastructure;
 using CustomResumeBlazor.Domain;
-using CustomResumeBlazor.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace CustomResume.Blazor.Shared;
+namespace CustomResume.Library.Application.Components;
 
-public partial class MainLayout
+public partial class MainLayoutPage
 {
     protected override async Task OnInitializedAsync()
     {
         _preferences = await ProfileService.GetPreferences();
         _isDarkCurrentTheme = _preferences.DarkMode;
 
-        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
-        _configurations = WebsiteRepo.GetConfigurations();
-        _personalInformation = WebsiteRepo.GetPersonalInformation();
+        _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
+        _configurations = await WebsiteRepo.GetConfigurations();
+        _personalInformation = await WebsiteRepo.GetPersonalInformation();
         _mainPage = _websiteDatabaseData.MainPage;
 
         _hasLoaded = true;
@@ -28,12 +29,12 @@ public partial class MainLayout
 
     private async Task ChangeThemeAsync()
     {
-
         _isDarkCurrentTheme = await ProfileService.ToggleDarkMode();
         StateHasChanged();
     }
 
     #region Private fields
+
     private MudTheme _currentTheme => ThemeManager.GetMudTheme(_configurations?.WebsiteTheme ?? WebsiteTheme.Blue);
     private bool _hasLoaded;
     private WebsiteData? _websiteDatabaseData;
@@ -43,14 +44,21 @@ public partial class MainLayout
     private Preferences _preferences = new();
     private bool _isDarkCurrentTheme = false;
     private bool _drawerOpen = true;
+
+    #endregion
+
+    #region Public fields
+    
+    public MudTheme CurrentTheme => _currentTheme;
+
+    public bool IsDarkCurrentTheme => _isDarkCurrentTheme;
+    
     #endregion
 
     #region Injected services
 
-    [Inject]
-    public IProfileService ProfileService { get; set; } = default!;
-    [Inject]
-    private IWebsiteRepo WebsiteRepo { get; set; } = default!;
+    [Inject] public IProfileService ProfileService { get; set; } = default!;
+    [Inject] private IWebsiteRepo WebsiteRepo { get; set; } = default!;
 
     #endregion
 }

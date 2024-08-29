@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CustomResume.Library;
+using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 
 namespace CustomResume.Maui
@@ -17,6 +18,7 @@ namespace CustomResume.Maui
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
+            builder.Services.AddCustomResumeMauiServices();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
