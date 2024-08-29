@@ -1,4 +1,4 @@
-﻿namespace CustomResumeBlazor.Domain;
+﻿namespace CustomResume.Library.Domain;
 
 public static class MiExtensions
 {

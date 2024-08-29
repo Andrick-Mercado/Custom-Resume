@@ -1,4 +1,5 @@
-﻿using MudBlazor;
+﻿using CustomResume.Library.Domain;
+using MudBlazor;
 
 namespace CustomResumeBlazor.Domain.Mappers;
 
