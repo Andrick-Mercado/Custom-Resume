@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IProfileService, ProfileService>();
 
         services.AddSingleton(new AppInfoRouter(isThisMauiApp: true));
-        
+
         services.AddBlazoredLocalStorage();
         return services;
     }
@@ -25,9 +25,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IWebsiteRepo>(websiteRepo);
 
         services.AddSingleton<IProfileService, ProfileService>();
-        
+
         services.AddSingleton(new AppInfoRouter(isThisMauiApp: false));
-        
+
         services.AddBlazoredLocalStorageAsSingleton();
         return services;
     }

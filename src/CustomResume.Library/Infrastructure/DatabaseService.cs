@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
 using CustomResume.Library.Domain;
+using CustomResume.Library.Infrastructure.Extensions;
 using CustomResumeBlazor.Domain;
 
 namespace CustomResume.Library.Infrastructure;
@@ -34,13 +35,7 @@ public class MockedDatabaseService : IDatabaseService
     {
         var websiteDatabaseData = GetWebsiteDataAsString();
 
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-
-        WebsiteDatabaseData websiteDatabaseDataJson = JsonSerializer.Deserialize<WebsiteDatabaseData>(websiteDatabaseData, options);
+        var websiteDatabaseDataJson = websiteDatabaseData.DeserializeWithCamelCase<WebsiteDatabaseData>();
 
         return websiteDatabaseDataJson;
     }

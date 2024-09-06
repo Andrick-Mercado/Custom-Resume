@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		prerender\package.json = prerender\package.json
 		README.md = README.md
+		.github\workflows\DeployWebAppToGitHubPages.yml = .github\workflows\DeployWebAppToGitHubPages.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomResume.Maui", "src\CustomResume.Maui\CustomResume.Maui.csproj", "{2D49BF1A-5586-402F-A0DC-57EBDF056030}"
