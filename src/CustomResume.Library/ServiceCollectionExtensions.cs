@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton(new AppInfoRouter(isThisMauiApp: true));
 
+        services.AddSingleton(typeof(IDirectoryService<>), typeof(DirectoryService<>));
         services.AddBlazoredLocalStorage();
         return services;
     }

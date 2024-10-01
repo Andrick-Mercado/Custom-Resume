@@ -1,8 +1,5 @@
 ﻿using System.Net.Http.Json;
-using System.Text.Json;
 using CustomResume.Library.Domain;
-using CustomResume.Library.Infrastructure.Extensions;
-using CustomResumeBlazor.Domain;
 
 namespace CustomResume.Library.Infrastructure;
 
@@ -25,23 +22,253 @@ public class DatabaseService : IDatabaseService
         return await _httpClient.GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
                ?? throw new InvalidOperationException();
     }
-
-    
 }
 
 public class MockedDatabaseService : IDatabaseService
 {
+    private readonly IDirectoryService<WebsiteDatabaseData> _directoryService;
+    private const string _websiteDataFilePath = "websiteData.json";
+ 
+    public MockedDatabaseService(IDirectoryService<WebsiteDatabaseData> directoryService)
+    {
+        _directoryService = directoryService;
+    }
+
     public async Task<WebsiteDatabaseData> GetWebsiteDatabaseDataAsync()
     {
-        var websiteDatabaseData = GetWebsiteDataAsString();
+        var websiteDatabaseData = await _directoryService.ReadFileAsync(_websiteDataFilePath);
+        if (websiteDatabaseData.IsNotSuccessful)
+        {
+            throw new InvalidOperationException();
+        }
 
-        var websiteDatabaseDataJson = websiteDatabaseData.DeserializeWithCamelCase<WebsiteDatabaseData>();
+        if (websiteDatabaseData.IsFound)
+            return websiteDatabaseData.Data;
 
-        return websiteDatabaseDataJson;
+        var defaultWebsiteDatabaseData = GetWebsiteData();
+        var writeResult = await _directoryService.WriteFileAsync(_websiteDataFilePath, defaultWebsiteDatabaseData);
+        if (writeResult.IsNotSuccessful)
+        {
+            throw new InvalidOperationException();
+        }
+
+        return defaultWebsiteDatabaseData;
     }
 
-    private string GetWebsiteDataAsString()
+    private static WebsiteDatabaseData GetWebsiteData() => new()
     {
-        return "{\r\n  \"configurations\": {\r\n    \"websiteTheme\": \"Green\",\r\n    \"enableDarkMode\": false\r\n  },\r\n  \"personalInformation\": {\r\n    \"person\": {\r\n      \"firstName\": \"Andrick\",\r\n      \"lastName\": \"Mercado\",\r\n      \"fullName\": \"Andrick Mercado\"\r\n    },\r\n    \"socialMediaLinks\": {\r\n      \"linkedIn\": \"andrick-mercado\",\r\n      \"mail\": \"andrickmercado17@gmail.com\",\r\n      \"twitter\": \"elonmusk\",\r\n      \"github\": \"andrick-mercado\"\r\n    }\r\n  },\r\n  \"websiteData\": {\r\n    \"mainPage\": {\r\n      \"name\": \"My Portfolio\",\r\n      \"title\": \"About Me\",\r\n      \"imageRoute\": \"images/headshot1.jpg\",\r\n      \"icon\": \"AccountCircle\",\r\n      \"paragraphs\": [\r\n        \"I'm Michael Anthony Moreno, a California native who hails from the beautiful city of San Diego. I've always been passionate about finance and economics, which led me to pursue my education at UC Berkeley, where I studied Political Economy. This experience allowed me to delve deep into the world of economics, understanding the intricate connections between policy, finance, and global markets.\",\r\n        \"My education has equipped me with a strong foundation in financial analysis, market trends, and economic theory. I'm not only dedicated to learning but also to applying my knowledge in practical settings. I'm highly motivated and always open to exploring new opportunities, whether in the field of finance or any other sector where I can leverage my skills and make a meaningful impact.\",\r\n        \"I believe that the world of finance and business is dynamic, and I'm excited to be a part of this ever-evolving landscape. I'm constantly seeking new challenges and ways to contribute to the growth and success of the organizations and projects I engage with.\",\r\n        \"If you have an exciting opportunity or project in mind, don't hesitate to reach out. I'm ready to connect, collaborate, and explore new horizons.\"\r\n      ]\r\n    },\r\n    \"otherPages\": [\r\n      {\r\n        \"sortOrder\": 0,\r\n        \"title\": \"Experience\",\r\n        \"endpoint\": \"experience\",\r\n        \"pageFormat\": \"Experience\",\r\n        \"icon\": \"Lightbulb\",\r\n        \"cards\": [\r\n          {\r\n            \"name\": \"A\",\r\n            \"title\": \"B\",\r\n            \"body\": \"C\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"https://www.google.com\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"sortOrder\": 1,\r\n        \"title\": \"Activities\",\r\n        \"endpoint\": \"activities\",\r\n        \"pageFormat\": \"Education\",\r\n        \"icon\": \"Construction\",\r\n        \"cards\": [\r\n          {\r\n            \"name\": \"E\",\r\n            \"title\": \"F\",\r\n            \"body\": \"G\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"https://www.google.com\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"sortOrder\": 2,\r\n        \"title\": \"Skills\",\r\n        \"endpoint\": \"skills\",\r\n        \"pageFormat\": \"Skill\",\r\n        \"icon\": \"AutoGraph\",\r\n        \"cards\": [\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"Python\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"C#\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"Java\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"JavaScript\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"HTML\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"CSS\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Programming\",\r\n            \"title\": \"SQL\",\r\n            \"body\": \"I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Languages\",\r\n            \"title\": \"English\",\r\n            \"body\": \"Native\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          },\r\n          {\r\n            \"name\": \"Languages\",\r\n            \"title\": \"Spanish\",\r\n            \"body\": \"Native\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"\",\r\n            \"LearnMoreUrl\": \"\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"sortOrder\": 3,\r\n        \"title\": \"Resume\",\r\n        \"endpoint\": \"https://docs.google.com/document/d/1NzIuVymJB1AxnmTCS_Wprf9u6-O_Qa-7vnFpc8n5guA/edit?usp=sharing\",\r\n        \"pageFormat\": \"ExternalLink\",\r\n        \"icon\": \"InsertDriveFile\",\r\n        \"cards\": [\r\n          {\r\n            \"name\": \"123\",\r\n            \"title\": \"456\",\r\n            \"body\": \"1\",\r\n            \"icon\": \"Lightbulb\",\r\n            \"imageUrl\": \"\",\r\n            \"embedUrl\": \"https://docs.google.com/document/d/1NzIuVymJB1AxnmTCS_Wprf9u6-O_Qa-7vnFpc8n5guA/edit?usp=sharing\"\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}";
-    }
+        Configurations = new Configurations
+        {
+            WebsiteTheme = WebsiteTheme.Green,
+            EnableDarkMode = false
+        },
+        PersonalInformation = new PersonalInformation
+        {
+            Person = new Person
+            {
+                FirstName = "Andrick",
+                LastName = "Mercado",
+                FullName = "Andrick Mercado"
+            },
+            SocialMediaLinks = new SocialMediaLinks
+            {
+                LinkedIn = "andrick-mercado",
+                Mail = "andrickmercado17@gmail.com",
+                Twitter = "elonmusk",
+                Github = "andrick-mercado"
+            }
+        },
+        WebsiteData = new WebsiteData
+        {
+            MainPage = new MainPage
+            {
+                Name = "My Portfolio",
+                Title = "About Me",
+                ImageRoute = "images/headshot1.jpg",
+                Icon = Icon.AccountCircle,
+                Paragraphs = new List<string>
+                {
+                    "I'm Michael Anthony Moreno, a California native who hails from the beautiful city of San Diego. I've always been passionate about finance and economics, which led me to pursue my education at UC Berkeley, where I studied Political Economy. This experience allowed me to delve deep into the world of economics, understanding the intricate connections between policy, finance, and global markets.",
+                    "My education has equipped me with a strong foundation in financial analysis, market trends, and economic theory. I'm not only dedicated to learning but also to applying my knowledge in practical settings. I'm highly motivated and always open to exploring new opportunities, whether in the field of finance or any other sector where I can leverage my skills and make a meaningful impact.",
+                    "I believe that the world of finance and business is dynamic, and I'm excited to be a part of this ever-evolving landscape. I'm constantly seeking new challenges and ways to contribute to the growth and success of the organizations and projects I engage with.",
+                    "If you have an exciting opportunity or project in mind, don't hesitate to reach out. I'm ready to connect, collaborate, and explore new horizons."
+                }
+            },
+            OtherPages = new List<OtherPages>
+            {
+                new OtherPages
+                {
+                    SortOrder = 0,
+                    Title = "Experience",
+                    Endpoint = "experience",
+                    PageFormat = CardType.Experience,
+                    Icon = Icon.Lightbulb,
+                    Cards = new List<Card>
+                    {
+                        new Card
+                        {
+                            Name = "A",
+                            Title = "B",
+                            Body = "C",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = "https://www.google.com"
+                        }
+                    }
+                },
+                new OtherPages
+                {
+                    SortOrder = 1,
+                    Title = "Activities",
+                    Endpoint = "activities",
+                    PageFormat = CardType.Education,
+                    Icon = Icon.Construction,
+                    Cards = new List<Card>
+                    {
+                        new Card
+                        {
+                            Name = "E",
+                            Title = "F",
+                            Body = "G",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = "https://www.google.com"
+                        }
+                    }
+                },
+                new OtherPages
+                {
+                    SortOrder = 2,
+                    Title = "Skills",
+                    Endpoint = "skills",
+                    PageFormat = CardType.Skill,
+                    Icon = Icon.AutoGraph,
+                    Cards = new List<Card>
+                    {
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "Python",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "C#",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "Java",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "JavaScript",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "HTML",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "CSS",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Programming",
+                            Title = "SQL",
+                            Body =
+                                "I have been using C# for 3 years now, and I have used it to create a variety of applications, including web applications, desktop applications, and games.",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Languages",
+                            Title = "English",
+                            Body = "Native",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        },
+                        new Card
+                        {
+                            Name = "Languages",
+                            Title = "Spanish",
+                            Body = "Native",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl = "",
+                            LearnMoreUrl = ""
+                        }
+                    }
+                },
+                new OtherPages
+                {
+                    SortOrder = 3,
+                    Title = "Resume",
+                    Endpoint =
+                        "https://docs.google.com/document/d/1NzIuVymJB1AxnmTCS_Wprf9u6-O_Qa-7vnFpc8n5guA/edit?usp=sharing",
+                    PageFormat = CardType.ExternalLink,
+                    Icon = Icon.InsertDriveFile,
+                    Cards = new List<Card>
+                    {
+                        new Card
+                        {
+                            Name = "123",
+                            Title = "456",
+                            Body = "1",
+                            Icon = Icon.Lightbulb,
+                            ImageUrl = "",
+                            EmbedUrl =
+                                "https://docs.google.com/document/d/1NzIuVymJB1AxnmTCS_Wprf9u6-O_Qa-7vnFpc8n5guA/edit?usp=sharing"
+                        }
+                    }
+                }
+            }
+        }
+    };
 }

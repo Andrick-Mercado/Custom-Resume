@@ -2,8 +2,6 @@
 
 namespace CustomResume.Library.Domain;
 
-public class DTOs { }
-
 public class WebsiteDatabaseData
 {
     public Configurations Configurations { get; set; }

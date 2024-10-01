@@ -1,31 +1,35 @@
 ﻿namespace CustomResume.Library.Application;
 
-public class Result
+public enum HttpStatusResult
 {
-    private Result(bool isSuccess, Error error)
-    {
-        if (isSuccess && error != Error.None ||
-            !isSuccess && error == Error.None)
-        {
-            throw new ArgumentException("Invalid error", nameof(error));
-        }
-
-        IsSuccess = isSuccess;
-        Error = error;
-    }
-
-    public bool IsSuccess { get; }
-
-    public bool IsFailure => !IsSuccess;
-
-    public Error Error { get; }
-
-    public static Result Success() => new(true, Error.None);
-
-    public static Result Failure(Error error) => new(false, error);
+    NotApplicable,
+    SuccessfullRequestWithContent,
+    SuccessfullRequestWithNoContent,
+    BadRequest,
+    TooManyRequest,
+    ServerError,
+    Unauthorized,
+    PreconditionFailed,
+    NotFound
 }
 
-public sealed record Error(string Code, string Description)
+public class Result<T>
 {
-    public static readonly Error None = new(string.Empty, string.Empty);
+    public T Data { get; }
+    public bool IsSuccessful { get; }
+    public bool IsNotSuccessful => !IsSuccessful;
+    public List<string> Errors { get; }
+    public HttpStatusResult HttpResult { get; }
+
+    public Result(T data, bool isValid, List<string> errors = null, HttpStatusResult httpResult = HttpStatusResult.NotApplicable)
+    {
+        Data = data;
+        IsSuccessful = isValid;
+        Errors = errors ?? [];
+        HttpResult = httpResult;
+    }
+
+    public static Result<T> NotSuccessful(List<string> errors = null, HttpStatusResult httpResult = HttpStatusResult.NotApplicable) => new(default, false, errors, httpResult);
+
+    public static Result<T> Successful(T data, HttpStatusResult httpStatusResult = HttpStatusResult.NotApplicable) => new(data, true, null, httpStatusResult);
 }
