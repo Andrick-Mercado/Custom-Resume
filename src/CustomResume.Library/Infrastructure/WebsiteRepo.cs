@@ -1,41 +1,51 @@
-﻿using CustomResumeBlazor.Domain;
+﻿using CustomResume.Library.Domain;
+using CustomResume.Library.Infrastructure.Repo;
+using CustomResumeBlazor.Domain;
 
-namespace CustomResumeBlazor.Infrastructure;
+namespace CustomResume.Library.Infrastructure;
 
 public interface IWebsiteRepo
 {
-    Configurations GetConfigurations();
-    PersonalInformation GetPersonalInformation();
-    WebsiteData GetWebsiteData();
+    Task<Configurations> GetConfigurations();
+    Task<PersonalInformation> GetPersonalInformation();
+    Task<WebsiteData> GetWebsiteData();
 }
 
 public class WebsiteRepo : IWebsiteRepo
 {
     private readonly IDatabaseService _databaseService;
     private WebsiteDatabaseData _websiteDatabaseData = default!;
+    private bool _initialized = false;
 
     public WebsiteRepo(IDatabaseService databaseService)
     {
         _databaseService = databaseService;
     }
 
-    public async Task InitializeAsync()
+    public async Task EnsureInitializedAsync()
     {
-        _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
+        if (_initialized is false)
+        {
+            _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
+            _initialized = true;
+        }
     }
 
-    public Configurations GetConfigurations()
+    public async Task<Configurations> GetConfigurations()
     {
+        await EnsureInitializedAsync();
         return _websiteDatabaseData.Configurations;
     }
 
-    public PersonalInformation GetPersonalInformation()
+    public async Task<PersonalInformation> GetPersonalInformation()
     {
+        await EnsureInitializedAsync();
         return _websiteDatabaseData.PersonalInformation;
     }
 
-    public WebsiteData GetWebsiteData()
+    public async Task<WebsiteData> GetWebsiteData()
     {
+        await EnsureInitializedAsync();
         return _websiteDatabaseData.WebsiteData;
     }
 }

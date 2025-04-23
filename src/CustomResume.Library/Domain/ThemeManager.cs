@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace CustomResumeBlazor.Domain;
+namespace CustomResume.Library.Domain;
 
 public static class ThemeManager
 {
@@ -13,7 +13,7 @@ public static class ThemeManager
             case WebsiteTheme.Blue:
                 theme = new MudTheme
                 {
-                    Palette = new PaletteLight
+                    PaletteLight = new PaletteLight
                     {
                         AppbarBackground = "#0097FF",
                         AppbarText = "#FFFFFF",
@@ -28,7 +28,6 @@ public static class ThemeManager
                         ActionDefault = "#0C1217",
                         ActionDisabled = "#2F678C",
                         TextDisabled = "#676767",
-
                     },
                     PaletteDark = new PaletteDark
                     {
@@ -52,8 +51,9 @@ public static class ThemeManager
 
             case WebsiteTheme.Green:
                 theme = new MudTheme
-                {//#00AA44
-                    Palette = new PaletteLight
+                {
+                    //#00AA44
+                    PaletteLight = new PaletteLight
                     {
                         AppbarBackground = "#00AA44",
                         AppbarText = "#FFFFFF",
@@ -68,7 +68,6 @@ public static class ThemeManager
                         ActionDefault = "#0C1217",
                         ActionDisabled = "#2F678C",
                         TextDisabled = "#676767",
-
                     },
                     PaletteDark = new PaletteDark
                     {
@@ -93,5 +92,4 @@ public static class ThemeManager
 
         return theme;
     }
-
 }

@@ -1,8 +1,5 @@
-﻿@using CustomResumeBlazor.Domain
+﻿@using CustomResume.Library.Domain
 @using CustomResumeBlazor.Domain.Mappers
-@using CustomResumeBlazor.Infrastructure
-
-
 <PageTitle>@ClientRouteName.FirstCharToUpper()</PageTitle>
 
 @if (_hasLoaded is false)
@@ -34,14 +31,14 @@ else if (_currentPage?.PageFormat is CardType.Skill)
 {
     @foreach (var skillCards in GetCardsGroupedByCardName())
     {
-        <MudDivider Class="mb-4" />
+        <MudDivider Class="mb-4"/>
         <MudText Class="d-flex justify-center" Typo="Typo.h3" GutterBottom="true">@skillCards.Key</MudText>
         <MudItem xs="12" md="12" Class="d-flex justify-center flex-wrap mt-4">
             @foreach (var skill in skillCards)
             {
                 <MudItem Class="d-flex flex-wrap mr-4 mb-8">
                     <MudCard Square="true" Style="width:400px">
-                        <MudIcon Icon="@IconMapper.GetIcon(skill.Icon)" Size="Size.Large" />
+                        <MudIcon Icon="@IconMapper.GetIcon(skill.Icon)" Size="Size.Large"/>
                         <MudCardContent>
                             <MudText Typo="Typo.h5">@skill.Title</MudText>
                             <MudText Typo="Typo.body2">@skill.Body</MudText>
@@ -53,3 +50,19 @@ else if (_currentPage?.PageFormat is CardType.Skill)
     }
 }
 
+@if (AppInfoRouter?.IsThisMauiApp is true)
+{
+    <MudDivider DividerType="DividerType.FullWidth"></MudDivider>
+
+    <MudText Typo="Typo.h3" GutterBottom="true" Class="d-flex justify-center">Upload Image</MudText>
+
+    <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFileAsync">
+        <ActivatorContent>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Image">
+                Upload Single Image
+            </MudButton>
+        </ActivatorContent>
+    </MudFileUpload>
+}

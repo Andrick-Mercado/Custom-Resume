@@ -1,17 +1,13 @@
-﻿using CustomResumeBlazor.Domain;
-using System.Net.Http.Json;
-namespace CustomResumeBlazor.Infrastructure;
+﻿using System.Net.Http.Json;
+using CustomResume.Library.Domain;
 
-public interface IDatabaseService
-{
-    Task<WebsiteDatabaseData> GetWebsiteDatabaseDataAsync();
-}
+namespace CustomResume.Library.Infrastructure.Repo;
 
-public class DatabaseService : IDatabaseService
+public class WebDatabaseService : IDatabaseService
 {
     private readonly HttpClient _httpClient;
 
-    public DatabaseService(HttpClient httpClient)
+    public WebDatabaseService(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }

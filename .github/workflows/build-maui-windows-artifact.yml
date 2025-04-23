@@ -1,0 +1,52 @@
+name: Build MAUI Windows Artifact
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install MAUI Workload
+        run: dotnet workload install maui
+
+      - name: Restore
+        run: dotnet restore
+        working-directory: ./src/CustomResume.Maui
+
+      - name: Build
+        run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
+        working-directory: ./src/CustomResume.Maui
+
+      - name: Decode Signing Certificate
+        run: |
+          echo "${{ secrets.MAUI_SIGNING_CERTIFICATE_BASE_64_CONTENT }}" > cert.asc
+          certutil -decode cert.asc cert.pfx
+
+      - name: Install Signing Certficiate
+        run: certutil -user -p ${{ secrets.MAUI_SIGNING_CERTIFICATE_PASSWORD }} -Silent -importpfx cert.pfx NoRoot
+
+      - name: Publish
+        run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.MAUI_SIGNING_CERTIFICATE_THUMBPRINT }}
+        working-directory: ./src/CustomResume.Maui
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build
+          path:
+            ./src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
+            ./src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer

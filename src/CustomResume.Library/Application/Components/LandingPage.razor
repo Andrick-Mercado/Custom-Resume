@@ -1,0 +1,34 @@
+﻿@if (_hasLoaded)
+{
+    <PageTitle>@_mainPage?.Title</PageTitle>
+
+    <MudGrid Class="d-flex justify-center">
+        <MudItem>
+            <MudImage ObjectFit="ObjectFit.Fill" Height="250" Width="200" Src="@_mainPage?.ImageRoute" Alt="Headshot" Elevation="25" Class="rounded-lg"/>
+        </MudItem>
+        <MudItem >
+            <MudText Typo="Typo.h3" GutterBottom="true">@_mainPage?.Title</MudText>
+            @foreach (var paragraph in _mainPage?.Paragraphs ?? Enumerable.Empty<string>())
+            {
+                <MudText Class="mb-4">@paragraph</MudText>
+            }
+        </MudItem>
+
+    </MudGrid>
+}
+else
+{
+    <PageTitle>Loading...</PageTitle>
+
+    <MudGrid Class="d-flex justify-center">
+
+        <MudItem>
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px" Width="200px" Class="rounded-lg"/>
+            
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="400px" Class="mb-20 mt-4"/>
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="400px" Class="mb-4 mt-4"/>
+            <MudSkeleton SkeletonType="SkeletonType.Text" Width="400px" Class="mb-4 mt-4"/>
+        </MudItem>
+
+    </MudGrid>
+}
