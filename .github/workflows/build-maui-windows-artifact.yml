@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -25,28 +25,48 @@ jobs:
 
       - name: Restore
         run: dotnet restore
-        working-directory: ./src/CustomResume.Maui
+        working-directory: src/CustomResume.Maui
 
       - name: Build
         run: dotnet build -c Release -f:net8.0-windows10.0.19041.0
-        working-directory: ./src/CustomResume.Maui
+        working-directory: src/CustomResume.Maui
 
       - name: Decode Signing Certificate
         run: |
           echo "${{ secrets.MAUI_SIGNING_CERTIFICATE_BASE_64_CONTENT }}" > cert.asc
           certutil -decode cert.asc cert.pfx
 
-      - name: Install Signing Certficiate
+      - name: Install Signing Certificate
         run: certutil -user -p ${{ secrets.MAUI_SIGNING_CERTIFICATE_PASSWORD }} -Silent -importpfx cert.pfx NoRoot
 
       - name: Publish
         run: dotnet publish -c Release -f:net8.0-windows10.0.19041.0 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=true /p:PackageCertificateThumbprint=${{ secrets.MAUI_SIGNING_CERTIFICATE_THUMBPRINT }}
-        working-directory: ./src/CustomResume.Maui
+        working-directory: src/CustomResume.Maui
 
-      - name: Upload
-        uses: actions/upload-artifact@v4
+      - name: Extract Version
+        id: extractVersion
+        shell: pwsh
+        run: |
+          $xml = [Xml] (Get-Content src/CustomResume.Maui/CustomResume.Maui.csproj)
+          [string] $version = [Version] $xml.Project.PropertyGroup.ApplicationDisplayVersion
+          echo "version=$($version)" >> $env:GITHUB_OUTPUT
+
+      - name: Create Tag
+        uses: actions/github-script@v5
         with:
-          name: Build
-          path:
-            ./src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.msix
-            ./src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/**/*.cer
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              ref: 'refs/tags/v${{ steps.extractVersion.outputs.version }}'
+            })
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.extractVersion.outputs.version }}
+          files: |
+            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.msix
+            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.cer
