@@ -1,7 +1,9 @@
 using CustomResume.Library.Domain;
 using CustomResume.Library.Infrastructure;
+using CustomResume.Library.Infrastructure.FileServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Logging;
 
 namespace CustomResume.Library.Application.Components;
 
@@ -10,7 +12,8 @@ public partial class DisplayAllCardsPage
     [Parameter] public string ClientRouteName { get; set; } = default!;
     [Inject] private IWebsiteRepo WebsiteRepo { get; set; } = default!;
     [Inject] private AppInfoRouter AppInfoRouter { get; set; } = default!;
-
+    [Inject] private IDirectoryService<byte[]> DirectoryService { get; set; } = default!;
+    [Inject] private ILogger<DisplayAllCardsPage> Logger { get; set; } = default!;
     private bool _hasLoaded = false;
     private WebsiteData _websiteDatabaseData;
     private OtherPages _currentPage;
@@ -62,8 +65,11 @@ public partial class DisplayAllCardsPage
         var fileSize = file.Size;
         var fileContentType = file.ContentType;
 
-        // Do something with the file, like saving it or processing it
-        // For now, just return the file
+        Logger?.LogInformation("Uploaded file: {FileName}, Size: {FileSize}, ContentType: {FileContentType}", fileName, fileSize, fileContentType);
+        var buffer = new byte[fileSize];
+        var readToBuffer = await file.OpenReadStream().ReadAsync(buffer);
+        var writeResult = await DirectoryService.WriteBytesAsync(fileName, buffer);
+
         return await Task.FromResult(file);
     }
 }

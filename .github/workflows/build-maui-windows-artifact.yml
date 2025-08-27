@@ -1,4 +1,4 @@
-name: Build MAUI Windows Artifact
+name: MAUI CD
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Deploy Web App to GitHub Pages
+name: Blazor WASM CD
 
 # Run workflow on every push to the master branch
 on:
@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    # Install wasm-tools 
+    # Install wasm-tools
     - name: Install wasm-tools
       run: dotnet workload install wasm-tools
 
@@ -50,10 +50,10 @@ jobs:
     # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
     - name: Add .nojekyll file
       run: touch prerender/output/wwwroot/.nojekyll
-      
+
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: deployment-branch
-        FOLDER: prerender/output/wwwroot
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: deployment-branch
+        folder: prerender/output/wwwroot

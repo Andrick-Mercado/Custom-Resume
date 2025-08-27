@@ -1,5 +1,6 @@
 ﻿using CustomResume.Library.Application;
 using CustomResume.Library.Infrastructure.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Storage;
 
 namespace CustomResume.Library.Infrastructure.FileServices;
@@ -8,15 +9,18 @@ public interface IDirectoryService<T>
 {
     Task<EntityExistResult<T>> ReadFileAsync(string filePathName);
     Task<Result<bool>> WriteFileAsync(string filePath, T data);
+    Task<Result<bool>> WriteBytesAsync(string filePath, byte[] data);
     Result<bool> DeleteFileAsync(string filePath);
 }
 
 public class DirectoryService<T> : IDirectoryService<T>
 {
     private readonly string _directoryPath;
+    private readonly ILogger<DirectoryService<T>> _logger;
 
-    public DirectoryService()
+    public DirectoryService(ILogger<DirectoryService<T>> logger = null)
     {
+        _logger = logger;
         var appDataDirectory = FileSystem.Current.AppDataDirectory;
         _directoryPath = appDataDirectory;
     }
@@ -26,17 +30,22 @@ public class DirectoryService<T> : IDirectoryService<T>
         try
         {
             var fullPath = Path.Combine(_directoryPath, filePathName);
-            Console.WriteLine("fullPath: " + fullPath);
+            _logger?.LogDebug("Reading file at path: {FullPath}", fullPath);
 
             if (File.Exists(fullPath) is false)
+            {
+                _logger?.LogWarning("File not found at path: {FullPath}", fullPath);
                 return EntityExistResult<T>.NotFound(true, ["File not found"]);
+            }
 
             var fileContent = await File.ReadAllTextAsync(fullPath);
             var data = fileContent.DeserializeWithCamelCase<T>();
+            _logger?.LogInformation("Successfully read file: {FullPath}", fullPath);
             return EntityExistResult<T>.Found(data);
         }
         catch (Exception ex)
         {
+            _logger?.LogError(ex, "Error reading file {FilePathName}", filePathName);
             return EntityExistResult<T>.NotFound(false, [ex.Message]);
         }
     }
@@ -48,16 +57,43 @@ public class DirectoryService<T> : IDirectoryService<T>
             var fullPath = Path.Combine(_directoryPath, filePath);
             var directoryPath = Path.GetDirectoryName(fullPath);
 
+            _logger?.LogDebug("Writing file at path: {FullPath}", fullPath);
             if (string.IsNullOrEmpty(directoryPath) is false)
                 Directory.CreateDirectory(directoryPath);
 
             var fileContent = data.Serialize();
             await File.WriteAllTextAsync(fullPath, fileContent);
 
+            _logger?.LogInformation("Wrote file: {FullPath}", fullPath);
+
             return Result<bool>.Successful(true);
         }
         catch (Exception ex)
         {
+            _logger?.LogError(ex, "Error writing file {FilePath}", filePath);
+            return Result<bool>.NotSuccessful([ex.Message]);
+        }
+    }
+
+    public async Task<Result<bool>> WriteBytesAsync(string filePath, byte[] data)
+    {
+        try
+        {
+            var fullPath = Path.Combine(_directoryPath, filePath);
+            var directoryPath = Path.GetDirectoryName(fullPath);
+
+            _logger?.LogDebug("Writing file at path: {FullPath}", fullPath);
+            if (string.IsNullOrEmpty(directoryPath) is false)
+                Directory.CreateDirectory(directoryPath);
+
+            await File.WriteAllBytesAsync(fullPath, data);
+            _logger?.LogInformation("Wrote file: {FullPath}", fullPath);
+
+            return Result<bool>.Successful(true);
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogError(ex, "Error writing file {FilePath}", filePath);
             return Result<bool>.NotSuccessful([ex.Message]);
         }
     }
@@ -69,12 +105,16 @@ public class DirectoryService<T> : IDirectoryService<T>
             var fullPath = Path.Combine(_directoryPath, filePath);
 
             if (File.Exists(fullPath))
+            {
                 File.Delete(fullPath);
+                _logger?.LogInformation("Deleted file: {FullPath}", fullPath);
+            }
 
             return Result<bool>.Successful(true);
         }
         catch (Exception ex)
         {
+            _logger?.LogError(ex, "Error deleting file {FilePath}", filePath);
             return Result<bool>.NotSuccessful([ex.Message]);
         }
     }

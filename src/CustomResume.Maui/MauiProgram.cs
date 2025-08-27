@@ -20,10 +20,11 @@ namespace CustomResume.Maui
             builder.Services.AddMudServices();
             builder.Services.AddCustomResumeMauiServices();
 
+            builder.Logging.SetMinimumLevel(LogLevel.Information);
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
-            //builder.Logging.SetMinimumLevel(LogLevel.Debug);
+            builder.Logging.SetMinimumLevel(LogLevel.Debug);
 #endif
 
             return builder.Build();

@@ -20,7 +20,7 @@
     "mainPage": {
       "name": "My Portfolio",
       "title": "About Me",
-      "imageRoute": "images/headshot1.jpg",
+      "imageRoute": "images/headshot_potatoe.png",
       "icon": "AccountCircle",
       "paragraphs": [
         "I'm Michael Anthony Moreno, a California native who hails from the beautiful city of San Diego. I've always been passionate about finance and economics, which led me to pursue my education at UC Berkeley, where I studied Political Economy. This experience allowed me to delve deep into the world of economics, understanding the intricate connections between policy, finance, and global markets.",
@@ -44,7 +44,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": "https://www.google.com"
+            "learnMoreUrl": "https://www.google.com"
           }
         ]
       },
@@ -62,7 +62,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": "https://www.google.com"
+            "learnMoreUrl": "https://www.google.com"
           }
         ]
       },
@@ -80,7 +80,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -89,7 +89,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -98,7 +98,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -107,7 +107,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -116,7 +116,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -125,7 +125,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Programming",
@@ -134,7 +134,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Languages",
@@ -143,7 +143,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           },
           {
             "name": "Languages",
@@ -152,7 +152,7 @@
             "icon": "Lightbulb",
             "imageUrl": "",
             "embedUrl": "",
-            "LearnMoreUrl": ""
+            "learnMoreUrl": ""
           }
         ]
       },

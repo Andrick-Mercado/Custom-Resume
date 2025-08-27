@@ -21,14 +21,13 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static async Task<IServiceCollection> AddCustomResumeBlazorServicesAsync(this IServiceCollection services,
-        string baseAddress)
+    public static async Task<IServiceCollection> AddCustomResumeBlazorServicesAsync(this IServiceCollection services, string baseAddress)
     {
-        var websiteRepo =
-            new WebsiteRepo(new WebDatabaseService(new HttpClient { BaseAddress = new Uri(baseAddress) }));
+        var websiteRepo = new WebsiteRepo(new WebDatabaseService(new HttpClient { BaseAddress = new Uri(baseAddress) }));
         await websiteRepo.EnsureInitializedAsync();
         services.AddSingleton<IWebsiteRepo>(websiteRepo);
 
+        services.AddSingleton(typeof(IDirectoryService<>), typeof(BrowserDirectoryService<>));
         services.AddSingleton<IProfileService, ProfileService>();
 
         services.AddSingleton(new AppInfoRouter(AppInfoRouterType.Blazor));
