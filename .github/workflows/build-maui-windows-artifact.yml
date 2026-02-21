@@ -68,5 +68,5 @@ jobs:
         with:
           tag_name: v${{ steps.extractVersion.outputs.version }}
           files: |
-            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.msix
-            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win10-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.cer
+            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.msix
+            src/CustomResume.Maui/bin/Release/net8.0-windows10.0.19041.0/win-x64/AppPackages/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_Test/CustomResume.Maui_${{ steps.extractVersion.outputs.version }}.0_x64.cer
