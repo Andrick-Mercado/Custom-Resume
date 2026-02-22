@@ -61,7 +61,7 @@ public class DesktopDatabaseService : IDatabaseService
             {
                 Name = "My Portfolio",
                 Title = "About Me",
-                ImageRoute = "images/headshot1.jpg",
+                ImageRoute = "images/headshot_potatoe.png",
                 Icon = Icon.AccountCircle,
                 Paragraphs = new List<string>
                 {

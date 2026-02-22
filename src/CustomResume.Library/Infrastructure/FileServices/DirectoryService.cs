@@ -5,14 +5,6 @@ using Microsoft.Maui.Storage;
 
 namespace CustomResume.Library.Infrastructure.FileServices;
 
-public interface IDirectoryService<T>
-{
-    Task<EntityExistResult<T>> ReadFileAsync(string filePathName);
-    Task<Result<bool>> WriteFileAsync(string filePath, T data);// This needs to be able to save images of multiple types and json files
-    Task<Result<bool>> WriteBytesAsync(string filePath, byte[] data);
-    Result<bool> DeleteFileAsync(string filePath);
-}
-
 public class DirectoryService<T> : IDirectoryService<T>
 {
     private readonly string _directoryPath;
@@ -50,7 +42,7 @@ public class DirectoryService<T> : IDirectoryService<T>
         }
     }
 
-    public async Task<Result<bool>> WriteFileAsync(string filePath, T data)
+    public async Task<Result<bool>> WriteFileAsync(string filePath, T data) // This needs to be able to save images of multiple types and json files
     {
         try
         {
