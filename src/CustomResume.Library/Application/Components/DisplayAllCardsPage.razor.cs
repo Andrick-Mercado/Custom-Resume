@@ -4,6 +4,7 @@ using CustomResume.Library.Infrastructure.FileServices;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Logging;
+using MudBlazor;
 
 namespace CustomResume.Library.Application.Components;
 
@@ -14,6 +15,7 @@ public partial class DisplayAllCardsPage
     [Inject] private AppInfoRouter AppInfoRouter { get; set; } = default!;
     [Inject] private IDirectoryService<byte[]> DirectoryService { get; set; } = default!;
     [Inject] private ILogger<DisplayAllCardsPage> Logger { get; set; } = default!;
+    [Inject] private ISnackbar Snackbar { get; set; } = default!;
     private bool _hasLoaded = false;
     private WebsiteData _websiteDatabaseData;
     private OtherPages _currentPage;
@@ -59,20 +61,53 @@ public partial class DisplayAllCardsPage
         return _currentPage?.Cards.FirstOrDefault() ?? new Card();
     }
 
-    private async Task<IBrowserFile> UploadFileAsync(IBrowserFile file)
+    private async Task UploadFileAsync(IBrowserFile file)
     {
-        var fileName = file.Name;
-        var fileSize = file.Size;
-        var fileContentType = file.ContentType;
+        if (file is null) return;
 
-        Logger?.LogInformation("Uploaded file: {FileName}, Size: {FileSize}, ContentType: {FileContentType}", fileName, fileSize, fileContentType);
-        var buffer = new byte[fileSize];
-        var readToBuffer = await file.OpenReadStream().ReadAsync(buffer);
+        const long maxFileSize = 1024 * 1024 * 5; // 5MB limit
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+        var fileExtension = Path.GetExtension(file.Name).ToLowerInvariant();
 
-        var writeResult = await DirectoryService.WriteBytesAsync(fileName, buffer);
-        if (writeResult.IsNotSuccessful)
-            throw new InvalidOperationException();
+        if (!allowedExtensions.Contains(fileExtension))
+        {
+            Snackbar.Add($"File type {fileExtension} is not allowed. Please upload {string.Join(", ", allowedExtensions)}", Severity.Error);
+            return;
+        }
 
-        return file;
+        if (file.Size > maxFileSize)
+        {
+            Snackbar.Add($"File is too large. Max size allowed is {maxFileSize / 1024 / 1024}MB", Severity.Error);
+            return;
+        }
+
+        try
+        {
+            var fileName = Path.GetFileName(file.Name);
+            Logger?.LogInformation("Uploading file: {FileName}, Size: {FileSize}, ContentType: {FileContentType}", fileName, file.Size, file.ContentType);
+
+            using var stream = file.OpenReadStream(maxFileSize);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            var buffer = memoryStream.ToArray();
+
+            var writeResult = await DirectoryService.WriteBytesAsync(fileName, buffer);
+            if (writeResult.IsSuccessful)
+            {
+                Snackbar.Add($"File '{fileName}' uploaded successfully", Severity.Success);
+                Logger?.LogInformation("Successfully uploaded and saved: {FileName}", fileName);
+            }
+            else
+            {
+                var errors = string.Join(", ", writeResult.Errors);
+                Snackbar.Add($"Failed to save file: {errors}", Severity.Error);
+                Logger?.LogError("Failed to save file {FileName}: {Errors}", fileName, errors);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger?.LogError(ex, "Unexpected error during file upload: {FileName}", file.Name);
+            Snackbar.Add("An error occurred while uploading the file. Please try again.", Severity.Error);
+        }
     }
 }
