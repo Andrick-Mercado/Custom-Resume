@@ -68,8 +68,11 @@ public partial class DisplayAllCardsPage
         Logger?.LogInformation("Uploaded file: {FileName}, Size: {FileSize}, ContentType: {FileContentType}", fileName, fileSize, fileContentType);
         var buffer = new byte[fileSize];
         var readToBuffer = await file.OpenReadStream().ReadAsync(buffer);
-        var writeResult = await DirectoryService.WriteBytesAsync(fileName, buffer);
 
-        return await Task.FromResult(file);
+        var writeResult = await DirectoryService.WriteBytesAsync(fileName, buffer);
+        if (writeResult.IsNotSuccessful)
+            throw new InvalidOperationException();
+
+        return file;
     }
 }
